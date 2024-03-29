@@ -1,0 +1,38 @@
+---
+title: Automatic Repathing
+sidebar:
+  order: 2
+---
+import { Steps } from '@astrojs/starlight/components';
+
+Automatic Repathing allows you to instantly update your Animations property paths to reflect your Hierarchy as you move around and rename GameObjects.
+
+![Automatic Repathing](/images/automatic.gif)
+
+### TODO: Dont forget to update the settings links once the pages are created
+
+## How to use
+
+<Steps>
+1. Assign an Animator Controller
+
+   Define the Animator Controller that you want to use for the Automatic Repathing tool in the general settings.
+
+   ![Automatic Settings](/images/automatic-settings.png)
+
+   Animator Controllers can be assigned by using an [Animator Component](/animation-repathing/settings/), a [VRChat Avatar](/animation-repathing/settings/) or the [Root Animator](/animation-repathing/settings/).
+   
+2. Enable Automatic Repathing
+
+    Enable the Automatic Repathing tool by clicking the toggle at the top of the window.
+
+    ![Automatic Toggle](/images/automatic-toggle.png)
+
+3. Move or rename GameObjects in the Hierarchy, the tool will automatically update the paths in your Animations.
+</Steps>
+
+:::caution
+
+The Automatic Repathing tool can not fix paths that are already broken before enabling it. Use the [Fix Invalid Paths](/animation-repathing/fix-invalid/) tool first before using the Automatic Repathing tool or your paths will not be updated.
+
+:::

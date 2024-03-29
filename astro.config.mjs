@@ -17,7 +17,10 @@ export default defineConfig({
 			],
 			editLink: {
 				baseUrl: 'https://github.com/hfcRed/Documentation',
-			}
+			},
+			customCss: [
+				'./src/styles/custom.css',
+			]
 		}),
 	],
 });

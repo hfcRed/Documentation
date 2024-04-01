@@ -1,0 +1,11 @@
+img {
+  border-radius: 0.5rem;
+}
+
+aside {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+code {
+  border-radius: 0.25rem;
+}

@@ -9,10 +9,10 @@ async function fetchData() {
     }
 
     try {
-        const userCount = await fetch("https://api.hfcred.dev/animation-repathing/getusers");
+        const userCount = await fetch("https://animation-repathing.hfcred.workers.dev/getusers");
         const userCountJson = await userCount.json();
 
-        const projectCount = await fetch("https://api.hfcred.dev/animation-repathing/getprojects");
+        const projectCount = await fetch("https://animation-repathing.hfcred.workers.dev/getprojects");
         const projectCountJson = await projectCount.json();
 
         sessionStorage.setItem("users", userCountJson);

@@ -5,9 +5,14 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: 'hfcReds Docs',
+			description: 'Documentation for hfcReds projects',
+			logo: {
+				src: './src/assets/images/icon.webp',
+			},
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/hfcRed',
+				twitter: 'https://twitter.com/hfcRedddd',
 			},
 			sidebar: [
 				{

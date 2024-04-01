@@ -9,3 +9,35 @@ aside {
 code {
   border-radius: 0.25rem;
 }
+
+.card {
+  border-radius: 0.5rem;
+}
+
+/* Dark mode colors. */
+:root {
+  --sl-color-accent-low: #430922;
+  --sl-color-accent: #c00065;
+  --sl-color-accent-high: #fab0c6;
+}
+
+/* Light mode colors. */
+:root[data-theme="light"] {
+  --sl-color-accent-low: #fec5d5;
+  --sl-color-accent: #c30067;
+  --sl-color-accent-high: #600030;
+}
+
+.button {
+  background: var(--sl-color-text-accent) !important;
+  color: var(--sl-color-black) !important;
+  font-size: var(--sl-text-base);
+  padding: 1rem 1.25rem;
+  gap: 0.5em;
+  align-items: center;
+  border-radius: 999rem;
+  line-height: 1.1875;
+  text-decoration: none;
+  display: inline-flex;
+  margin-top: 1rem;
+}

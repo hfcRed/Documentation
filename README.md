@@ -4,6 +4,8 @@
 
 Source code for the [documentation website](https://docs.hfcred.dev/) for my tools and projects
 
+![chrome_zA9cpG8vtS](https://github.com/hfcRed/Documentation/assets/101019309/b8985dfd-f76f-4768-b0b3-f42c58ec3437)
+
 [![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/medium.svg)](https://starlight.astro.build)
 
 </div>

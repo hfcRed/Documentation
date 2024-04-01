@@ -9,7 +9,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 Edit Animation Clips allows you to directly edit the property paths of selected Animation Clips. You can edit property paths either individually or in bulk.
 
-![Edit Animation Clips](/images/clip.gif)
+![Edit Animation Clips](/src/images/animation-repathing/clip.gif)
 
 ## How to use
 
@@ -18,11 +18,11 @@ Edit Animation Clips allows you to directly edit the property paths of selected 
     <Steps>
       1. Select the Animation Clips you want to edit. All the property paths of the selected Animations will be displayed in the window.
 
-         ![Clip Selection](/images/clip-select.gif)
+         ![Clip Selection](/src/images/animation-repathing/clip-select.gif)
 
       2. Input the new property path into the text field and click ``Apply`` to update the property path for all affected Animatons.
 
-         ![Clip Apply](/images/clip-apply.gif)
+         ![Clip Apply](/src/images/animation-repathing/clip-apply.gif)
     </Steps>
     <Aside type="note">
       When pressing ``Apply`` the text fields of all other invalid paths will reset to their original value. Its best to update invalid paths one at a time.
@@ -32,11 +32,11 @@ Edit Animation Clips allows you to directly edit the property paths of selected 
     <Steps>
       1. Select the Animation Clips you want to edit. All the property paths of the selected Animations will be displayed in the window.
 
-         ![Clip Selection](/images/clip-select.gif)
+         ![Clip Selection](/src/images/animation-repathing/clip-select.gif)
 
       2. Input the part of the path you want to replace in the ``From`` text field and the new path in the ``To`` text field.
 
-         ![Clip Input](/images/clip-input.gif)
+         ![Clip Input](/src/images/animation-repathing/clip-input.gif)
 
           :::tip
           The tool will highlight affected paths green, the parts that will be updated in blue and multiple instances in red.
@@ -45,13 +45,13 @@ Edit Animation Clips allows you to directly edit the property paths of selected 
 
       3. Click ``Apply`` to replace the ``From`` path with the ``To`` path for all selected Animations.
 
-         ![Clip Apply](/images/clip-applyall.gif)
+         ![Clip Apply](/src/images/animation-repathing/clip-applyall.gif)
     </Steps>
     <Aside type="danger">
       If the ``From`` path is contained multiple times in the property path, all instances will be replaced! 
       For example, if the property path is ``root/child/child`` and you replace ``child`` with ``newChild``, the new path will be ``root/newChild/newChild``.
 
-      ![Clip Editing Warning](/images/clip-warning.png)
+      ![Clip Editing Warning](/src/images/animation-repathing/clip-warning.png)
 
       To avoid this, make sure the ``From`` path is unique!
     </Aside>
@@ -62,8 +62,8 @@ Edit Animation Clips allows you to directly edit the property paths of selected 
 
 - You can drag and drop GameObjects from the Hierarchy into the text field to automatically fill in the property path.
 
-  ![Drag And Drop GameObject](/images/clip-gameobject.gif)
+  ![Drag And Drop GameObject](/src/images/animation-repathing/clip-gameobject.gif)
 
 - If you have an Animator Controller defined in your settings, it will scan the Animator Controller for any invalid property paths and outline them yellow.
 
-  ![Animator Controller](/images/clip-invalid.png)
+  ![Animator Controller](/src/images/animation-repathing/clip-invalid.png)

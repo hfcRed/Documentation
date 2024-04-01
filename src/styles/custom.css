@@ -9,3 +9,7 @@ aside {
 code {
   border-radius: 0.25rem;
 }
+
+.card {
+  border-radius: 0.5rem;
+}

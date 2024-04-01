@@ -25,7 +25,7 @@ Edit Animation Clips allows you to directly edit the property paths of selected 
          ![Clip Apply](../../../assets/images/animation-repathing/clip-apply.gif)
     </Steps>
     <Aside type="note">
-      When pressing ``Apply`` the text fields of all other invalid paths will reset to their original value. Its best to update invalid paths one at a time.
+      When pressing ``Apply`` the text fields of all other property paths will reset to their original value. Its best to update property paths one at a time.
     </Aside>
   </TabItem>
   <TabItem label="Multiple">
@@ -39,8 +39,8 @@ Edit Animation Clips allows you to directly edit the property paths of selected 
          ![Clip Input](../../../assets/images/animation-repathing/clip-input.gif)
 
           :::tip
-          The tool will highlight affected paths green, the parts that will be updated in blue and multiple instances in red.
-          Property paths that will be unaffected will be greyed out.
+          The tool will highlight affected paths green, the parts that will be updated in blue and multiple instances in red.  
+          Property paths that are unaffected will be greyed out.
           :::
 
       3. Click ``Apply`` to replace the ``From`` path with the ``To`` path for all selected Animations.
@@ -48,7 +48,7 @@ Edit Animation Clips allows you to directly edit the property paths of selected 
          ![Clip Apply](../../../assets/images/animation-repathing/clip-applyall.gif)
     </Steps>
     <Aside type="danger">
-      If the ``From`` path is contained multiple times in the property path, all instances will be replaced! 
+      If the ``From`` path is contained multiple times in the property path, all instances will be replaced!  
       For example, if the property path is ``root/child/child`` and you replace ``child`` with ``newChild``, the new path will be ``root/newChild/newChild``.
 
       ![Clip Editing Warning](../../../assets/images/animation-repathing/clip-warning.png)

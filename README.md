@@ -1,54 +1,43 @@
-# Starlight Starter Kit: Basics
+<div align="center">
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+# Documentation
 
-```
-npm create astro@latest -- --template starlight
-```
+Source code for the [documentation website](https://docs.hfcred.dev/) for my tools and projects
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
+![chrome_zA9cpG8vtS](https://github.com/hfcRed/Documentation/assets/101019309/b8985dfd-f76f-4768-b0b3-f42c58ec3437)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/medium.svg)](https://starlight.astro.build)
 
-## 🚀 Project Structure
+</div>
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+---
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   ├── docs/
-│   │   └── config.ts
-│   └── env.d.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+
+## Running locally
+
+If you dont already have NVM installed, download the latest ``nvm-setup.zip`` from [here](https://github.com/coreybutler/nvm-windows/releases), then extract the zip and run the installer.
+
+If you are on a Unix based machine like Linux or MacOS, run the following command to install NVM:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+You can verify that NVM is installed by running:
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+```bash
+nvm --version
+```
 
-Static assets, like favicons, can be placed in the `public/` directory.
+After installing NVM run the following commands in the directory of the project:
 
-## 🧞 Commands
+* ``nvm use`` to switch to the required Node version.
+  * If the required version is not installed, you will be prompted to run the ``nvm install`` command.
+  * After installing the required version, run ``nvm use`` again
+* ``npm install`` to install the dependencies
 
-All commands are run from the root of the project, from a terminal:
+To start testing locally you can use the following commands:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+* ``npm run dev`` to start a local dev server at ``localhost:4321``
+* ``npm run build`` to create a build of the website
+* ``npm run preview`` to preview the build at ``localhost:4321``

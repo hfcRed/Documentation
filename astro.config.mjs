@@ -5,8 +5,25 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
+			favicon: '/favicon.png',
 			title: 'hfcReds Docs',
 			description: 'Documentation for hfcReds projects',
+			head: [
+				{
+					tag: 'meta',
+					attrs: {
+						name: 'og:image',
+						content: 'https://docs.hfcred.dev/og-image.png',
+					}
+				},
+				{
+					tag: 'meta',
+					attrs: {
+						name: 'twitter:image',
+						content: 'https://docs.hfcred.dev/og-image.png',
+					}
+				}
+			],
 			logo: {
 				src: './src/assets/images/icon.webp',
 			},

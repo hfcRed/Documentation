@@ -5,6 +5,7 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
+			favicon: '/favicon.png',
 			title: 'hfcReds Docs',
 			description: 'Documentation for hfcReds projects',
 			logo: {

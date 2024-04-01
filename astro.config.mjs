@@ -23,4 +23,11 @@ export default defineConfig({
 			]
 		}),
 	],
+	image: {
+		service: {
+			config: {
+				limitInputPixels: false,
+			}
+		}
+	}
 });

@@ -22,6 +22,14 @@ export default defineConfig({
 						name: 'twitter:image',
 						content: 'https://docs.hfcred.dev/og-image.png',
 					}
+				},
+				{
+					tag: 'script',
+					attrs: {
+						defer: true,
+						src: 'https://static.cloudflareinsights.com/beacon.min.js',
+						'data-cf-beacon': '{"token": "22168fbc09a042569d413d825099f224"}'
+					}
 				}
 			],
 			logo: {

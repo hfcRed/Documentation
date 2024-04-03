@@ -1,6 +1,7 @@
 const downloads = document.getElementById("downloads");
 const users = document.getElementById("users");
 const projects = document.getElementById("projects");
+const paths = document.getElementById("paths");
 
 async function fetchData() {
     if (sessionStorage.getItem("users")) {
@@ -15,8 +16,12 @@ async function fetchData() {
         const projectCount = await fetch("https://animation-repathing.hfcred.workers.dev/getprojects");
         const projectCountJson = await projectCount.json();
 
+        const pathCount = await fetch("https://animation-repathing.hfcred.workers.dev/getpaths");
+        const pathCountJson = await pathCount.json();
+
         sessionStorage.setItem("users", userCountJson);
         sessionStorage.setItem("projects", projectCountJson);
+        sessionStorage.setItem("paths", pathCountJson);
     }
     catch (error) {
         console.error(error);
@@ -58,6 +63,7 @@ function setCounts() {
     users.innerText = sessionStorage.getItem("users");
     projects.innerText = sessionStorage.getItem("projects");
     downloads.innerText = sessionStorage.getItem("downloads");
+    paths.innerText = sessionStorage.getItem("paths");
 }
 
 fetchData();

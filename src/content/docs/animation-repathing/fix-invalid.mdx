@@ -20,16 +20,19 @@ Fix Invalid Paths scans all Animations in your Animator Controllers for invalid 
 
    ![Invalid Paths Tab](../../../assets/images/animation-repathing/invalid-refresh.gif)
 
-3. Input the new property path into the text field and click ``Apply`` to update the property path for all Animatons.
+   :::note
+   The tool will also display paths that point at a property that no longer exists, even if the path is valid.  
+   For example, if you animate a Parent Constraint on a GameObject and then delete the Parent Constraint, the path will be invalid, even if the path was never changed.
+   :::
 
-   ![Invalid Path](../../../assets/images/animation-repathing/invalid-apply.gif)
+3. Input the new property path into the text field and click ``Apply`` to update the property path for all Animatons
+
+   :::note
+   When pressing ``Apply`` the text fields of all other invalid paths will reset to their original value. Its best to update invalid paths one at a time.
+   :::
+
+
 </Steps>
-
-:::note
-
-When pressing ``Apply`` the text fields of all other invalid paths will reset to their original value. Its best to update invalid paths one at a time.
-
-:::
 
 ## Additional Features
 

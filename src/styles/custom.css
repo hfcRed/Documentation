@@ -10,8 +10,9 @@ code {
   border-radius: 0.25rem;
 }
 
-.card {
-  border-radius: 0.5rem;
+.card,
+pre {
+  border-radius: 0.5rem !important;
 }
 
 /* Dark mode colors. */

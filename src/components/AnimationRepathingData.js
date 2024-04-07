@@ -49,6 +49,11 @@ async function fetchData() {
             }
         }
 
+        const gumroadCount = await fetch("https://animation-repathing.hfcred.workers.dev/getdownloads");
+        const gumroadCountJson = await gumroadCount.json();
+
+        downloads += gumroadCountJson;
+
         sessionStorage.setItem("downloads", downloads);
     }
     catch (error) {

@@ -31,11 +31,35 @@ export default defineConfig({
 				github: 'https://github.com/hfcRed',
 				twitter: 'https://twitter.com/hfcRedddd',
 			},
+			components: {
+				PageTitle: './src/components/ApiTitle.astro',
+			},
 			sidebar: [
 				{
 					label: 'Animation Repathing',
 					autogenerate: { directory: 'animation-repathing' },
 				},
+				{
+					label: 'NSO',
+					items: [
+						'nso/overview',
+						{
+							label: 'Authorization',
+							items: [
+								{ slug: 'nso/authorization/link', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
+								{ slug: 'nso/authorization/sessiontoken', badge: { text: 'P', variant: 'success', class: 'api-badge' }, attrs: { class: 'api-title' } },
+								{ slug: 'nso/authorization/delete', badge: { text: 'D', variant: 'danger', class: 'api-badge' }, attrs: { class: 'api-title' } }
+							]
+						},
+						{
+							label: 'Service',
+							items: [
+								{ slug: 'nso/service/query', badge: { text: 'P', variant: 'success', class: 'api-badge' }, attrs: { class: 'api-title' } },
+								{ slug: 'nso/service/querylist', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
+							]
+						}
+					]
+				}
 			],
 			editLink: {
 				baseUrl: 'https://github.com/hfcRed/Documentation',

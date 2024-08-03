@@ -1,16 +1,26 @@
 ---
 import type { Props } from "@astrojs/starlight/props";
+import Default from "@astrojs/starlight/components/PageTitle.astro";
 const data = Astro.props.entry.data as any;
+const isApi = Astro.props.slug.toString().includes("nso");
 ---
 
-<div class="header-container">
-  {
-    data.method && (
-      <div class:list={["title-badge", data.method]}>{data.method}</div>
-    )
-  }
-  <h1 id="_top" class="title-title">{data.title}</h1>
-</div>
+{
+  isApi ? (
+    <div class="header-container">
+      {data.method && (
+        <div class:list={["title-badge", data.method]}>{data.method}</div>
+      )}
+      <h1 id="_top" class="title-title">
+        {data.title}
+      </h1>
+    </div>
+  ) : (
+    <Default {...Astro.props}>
+      <slot />
+    </Default>
+  )
+}
 
 <style>
   h1 {

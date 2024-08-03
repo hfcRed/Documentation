@@ -2,9 +2,11 @@
 title: Overview
 sidebar:
   order: 1
+head:
+  - tag: script
+    attrs: { type: module, src: /AnimationRepathingData.js }
 ---
 import { Card, CardGrid } from '@astrojs/starlight/components';
-import { AnimationRepathingData } from '../../../components/AnimationRepathingData.astro';
 
 Animation Repathing is a Unity Editor tool to help users automatically or manually change the paths of properties inside an Animation Clip.  
 This tool is useful if you often find yourself moving and renaming GameObjects in your Hierarchy, and you want to quickly update the Animation Clips that reference them.

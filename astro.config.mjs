@@ -31,9 +31,6 @@ export default defineConfig({
 				github: 'https://github.com/hfcRed',
 				twitter: 'https://twitter.com/hfcRedddd',
 			},
-			components: {
-				PageTitle: './src/components/ApiTitle.astro',
-			},
 			sidebar: [
 				{
 					label: 'Animation Repathing',

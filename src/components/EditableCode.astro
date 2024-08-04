@@ -1,20 +1,20 @@
 ---
 import "./prism.css";
 
-const { language } = Astro.props;
+const { language, id } = Astro.props;
 ---
 
 <div class="editable-code">
   <div class="code-slot">
     <slot />
   </div>
-  <textarea class="code-input" spellcheck="false"></textarea>
+  <textarea class="code-input request-body" spellcheck="false"></textarea>
   <pre aria-hidden="true" class:list={["code-output", `language-${language}`]}>
   </pre>
 </div>
 
 <script is:inline>
-  window.onload = () => {
+  window.addEventListener("DOMContentLoaded", () => {
     const editables = document.querySelectorAll(".editable-code");
 
     for (const editable of editables) {
@@ -39,6 +39,7 @@ const { language } = Astro.props;
       }
 
       fullCode = fullCode.trim();
+      input.setAttribute("data-default", fullCode);
 
       input.value = fullCode;
       output.innerHTML = fullCode;
@@ -46,7 +47,6 @@ const { language } = Astro.props;
 
       copy.onclick = (e) => {
         e.preventDefault();
-
         navigator.clipboard.writeText(input.value);
       };
 
@@ -68,6 +68,9 @@ const { language } = Astro.props;
             break;
           case "Enter":
             preserveTab(e);
+            break;
+          case "Backspace":
+            deleteClosingBracket();
             break;
           case "{":
             insertString(e, "{}");
@@ -142,8 +145,23 @@ const { language } = Astro.props;
         input.selectionStart = input.selectionEnd = start + 1;
         input.dispatchEvent(new Event("input"));
       }
+
+      function deleteClosingBracket() {
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+
+        if (
+          input.value[start] === input.value[end] &&
+          /[\])}>"'`]/.test(input.value[start])
+        ) {
+          input.value = `${input.value.substring(0, start)}${input.value.substring(end + 1)}`;
+          input.selectionStart = input.selectionEnd = start;
+        }
+
+        input.dispatchEvent(new Event("input"));
+      }
     }
-  };
+  });
 </script>
 
 <style>

@@ -3,4 +3,107 @@ title: Query service
 sidebar:
   order: 1
 method: POST
+head:
+  - tag: link
+    attrs: { rel: stylesheet, href: https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/dark.css, onload: document.documentElement.classList.add('sl-theme-dark'); }
+  - tag: script
+    attrs: { type: module, src: https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/shoelace.js }
 ---
+import EditableCode from "../../../../components/EditableCode.astro";
+import ApiTester from "../../../../components/ApiTester.astro";
+
+<div class="api-route">
+  <span class="api-route-badge POST">POST</span>
+  <span class="api-route-text">/\{service}/query</span>
+</div>
+
+Query data from any of the available microservices. Currently available services are:
+
+* Coral
+* Splatnet 3
+
+:::danger
+502 response codes should be treated with respect! It means something went wrong while trying to authenticate with Nintendo.
+
+Do not repeat the request with the same data. If you can not solve the issue, please contact me on Discord.
+:::
+
+## Authentication 🔒
+
+<sl-input id="header_Authorization" size="small" type="password" label="HTTP Bearer" placeholder="sessiontoken"></sl-input>
+
+Uses the sessiontoken generate from the [generate token](/nso/authorization/sessiontoken) endpoint.
+
+## Request
+
+#### Parameters
+
+<sl-input id="parameter_service" size="small" label="Service ❗" help-text="Name of the service you want to query" placeholder="splatnet3"></sl-input>
+
+#### Headers
+
+<sl-input id="header_X-Agent" size="small" label="X-Agent ❗" help-text="Name of your application or contact information" placeholder="docs/v1.0.0"></sl-input>
+<sl-input id="header_X-Language" size="small" label="X-Language" help-text="Language for the query results (unused)" placeholder="en-US"></sl-input>
+
+#### Body ❗
+
+Requires an array of simple and/or complex queries that you want to perform on the given service
+
+<sl-tab-group>
+  <sl-tab slot="nav" panel="example">Example</sl-tab>
+  <sl-tab slot="nav" panel="schema">Schema</sl-tab>
+
+  <sl-tab-panel name="example">
+    <EditableCode language="json" id="request-body">
+      ```
+      {
+        "simpleQueries": [
+          ""
+        ],
+        "detailedQueries": [
+          {}
+        ]
+      }
+      ```
+    </ EditableCode>
+  </sl-tab-panel>
+  <sl-tab-panel name="schema">
+    <sl-tree class="tree-with-lines">
+      <sl-tree-item expanded>
+        <span>Object</span>
+        <sl-tree-item>
+          <div class="tree-two-columns">
+            <div>simpleQueries: [string]</div>
+            <div>String array of simple queries you want to perform on the given service</div>
+          </div>
+        </sl-tree-item>
+        <sl-tree-item>
+          <div class="tree-two-columns">
+            <span>detailedQueries: [object]</span>
+            <span>String array of complex queries you want to perform on the given service</span>
+          </div>
+        </sl-tree-item>
+      </sl-tree-item>
+    </sl-tree>
+  </sl-tab-panel>
+</sl-tab-group>
+
+<ApiTester url="/service/query" />
+
+## Response
+
+<sl-radio-group name="responses" value="1" size="small">
+  <sl-radio-button value="1">200</sl-radio-button>
+  <sl-radio-button value="2">400</sl-radio-button>
+  <sl-radio-button value="3">401</sl-radio-button>
+  <sl-radio-button value="4">429</sl-radio-button>
+  <sl-radio-button value="5">500</sl-radio-button>
+  <sl-radio-button value="6">502</sl-radio-button>
+</sl-radio-group>
+
+Success
+
+<sl-tab-group>
+  <sl-tab slot="nav" panel="example">Example</sl-tab>
+  <sl-tab slot="nav" panel="schema">Schema</sl-tab>
+</ sl-tab-group>

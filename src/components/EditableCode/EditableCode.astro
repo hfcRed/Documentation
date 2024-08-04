@@ -1,0 +1,173 @@
+---
+import "./prism.css";
+---
+
+<div class="editable-code">
+  <div class="code-slot">
+    <slot />
+  </div>
+  <textarea class="code-input" spellcheck="false"></textarea>
+  <pre aria-hidden="true" class="code-output language-json"></pre>
+</div>
+
+<script is:inline>
+  window.onload = () => {
+    const editables = document.querySelectorAll(".editable-code");
+
+    for (const editable of editables) {
+      const slot = editable.querySelector(".code-slot");
+      const frame = slot.querySelector(".frame");
+      const copy = editable.querySelector(".copy");
+      const input = editable.querySelector(".code-input");
+      const output = editable.querySelector(".code-output");
+      const lines = slot.querySelectorAll("code .ec-line");
+
+      frame.querySelector("pre").remove();
+      frame.appendChild(input);
+      frame.appendChild(output);
+
+      let fullCode = "";
+
+      for (const line of lines) {
+        const indent = line.querySelector(".code .indent")?.innerText;
+        const text = Array.from(line.querySelectorAll("span")).pop().innerText;
+        const code = indent ? `${indent}${text}` : text;
+        fullCode += `${code}\n`;
+      }
+
+      fullCode = fullCode.trim();
+
+      input.value = fullCode;
+      output.innerHTML = fullCode;
+      Prism.highlightElement(output);
+
+      copy.onclick = (e) => {
+        e.preventDefault();
+
+        navigator.clipboard.writeText(input.value);
+      };
+
+      input.oninput = () => {
+        if (!input.value) {
+          input.value = "{\n  \n}";
+          input.selectionStart = 4;
+          input.selectionEnd = 4;
+        }
+
+        output.innerHTML = input.value;
+        Prism.highlightElement(output);
+      };
+
+      input.onkeydown = (e) => {
+        switch (e.key) {
+          case "Tab":
+            insertTab(e);
+            break;
+          case "Enter":
+            preserveTab(e);
+            break;
+          case "{":
+            insertString(e, "{}");
+            break;
+          case "[":
+            insertString(e, "[]");
+            break;
+          case "(":
+            insertString(e, "()");
+            break;
+          case "'":
+            insertString(e, "''");
+            break;
+          case '"':
+            insertString(e, '""');
+            break;
+          case "`":
+            insertString(e, "``");
+            break;
+          case "<":
+            insertString(e, "<>");
+            break;
+        }
+      };
+
+      function insertTab(e) {
+        e.preventDefault();
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+
+        input.value = `${input.value.substring(0, start)}  ${input.value.substring(end)}`;
+        input.selectionStart = input.selectionEnd = start + 2;
+        input.dispatchEvent(new Event("input"));
+      }
+
+      function preserveTab(e) {
+        e.preventDefault();
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const lineStart = input.value.lastIndexOf("\n", start - 1) + 1;
+        const lineEnd = input.value.indexOf("\n", start);
+        const line = input.value.substring(lineStart, lineEnd);
+        const indent = line.match(/^\s*/)[0];
+
+        if (/[)}\]>,;"'`]$/.test(line.trim())) {
+          if (start !== lineEnd) {
+            input.value = `${input.value.substring(0, start)}\n${indent}  \n${indent}${input.value.substring(end)}`;
+            input.selectionStart = input.selectionEnd =
+              start + indent.length + 3;
+          } else {
+            input.value = `${input.value.substring(0, start)}\n${indent}${input.value.substring(end)}`;
+            input.selectionStart = input.selectionEnd =
+              start + indent.length + 1;
+          }
+        } else {
+          input.value = `${input.value.substring(0, start)}\n${indent}  ${input.value.substring(end)}`;
+          input.selectionStart = input.selectionEnd = start + indent.length + 3;
+        }
+
+        input.dispatchEvent(new Event("input"));
+      }
+
+      function insertString(e, string) {
+        e.preventDefault();
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+
+        input.value = `${input.value.substring(0, start)}${string}${input.value.substring(end)}`;
+        input.selectionStart = input.selectionEnd = start + 1;
+        input.dispatchEvent(new Event("input"));
+      }
+    }
+  };
+</script>
+
+<style>
+  .code-input {
+    position: absolute !important;
+    color: transparent !important;
+    background: transparent !important;
+    border: solid 1px transparent !important;
+    caret-color: white !important;
+    resize: none !important;
+    outline: none !important;
+    height: 100% !important;
+  }
+
+  .code-output {
+    display: block !important;
+  }
+
+  .code-input,
+  .code-output {
+    margin: 0 !important;
+    padding: 1rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
+    width: 100% !important;
+  }
+</style>
+
+<script src="./prism.js"></script>

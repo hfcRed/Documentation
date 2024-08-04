@@ -46,8 +46,6 @@ pre {
 .api-badge {
   min-width: fit-content;
   height: fit-content;
-  font-size: var(--sl-text-2xs) !important;
-  padding: 0.1rem 0.3rem !important;
 }
 
 .api-title {

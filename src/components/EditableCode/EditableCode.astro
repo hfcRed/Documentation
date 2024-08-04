@@ -1,5 +1,7 @@
 ---
 import "./prism.css";
+
+const { language } = Astro.props;
 ---
 
 <div class="editable-code">
@@ -7,7 +9,8 @@ import "./prism.css";
     <slot />
   </div>
   <textarea class="code-input" spellcheck="false"></textarea>
-  <pre aria-hidden="true" class="code-output language-json"></pre>
+  <pre aria-hidden="true" class:list={["code-output", `language-${language}`]}>
+  </pre>
 </div>
 
 <script is:inline>

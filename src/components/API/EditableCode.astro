@@ -41,6 +41,7 @@ const { language, id } = Astro.props;
 
       input.value = fullCode;
       output.innerHTML = fullCode;
+      output.style.display = "block";
       Prism.highlightElement(output);
 
       copy.onclick = (e) => {
@@ -175,7 +176,7 @@ const { language, id } = Astro.props;
   }
 
   .code-output {
-    display: block !important;
+    display: none;
   }
 
   .code-input,

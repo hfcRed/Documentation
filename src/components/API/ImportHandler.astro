@@ -1,0 +1,75 @@
+---
+import "./prism.css";
+---
+
+<script
+  src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/shoelace.js"
+></script>
+
+<script>
+  const target: any = document.querySelector("html");
+
+  onThemeChange(target.getAttribute("data-theme"), target);
+
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "data-theme"
+      ) {
+        onThemeChange(target.getAttribute("data-theme"), target);
+      }
+    }
+  });
+
+  observer.observe(target, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+
+  function onThemeChange(theme: string, target: any) {
+    if (theme === "light") {
+      target.classList.remove("sl-theme-dark");
+
+      loadStylesheet(
+        "light.css",
+        "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/light.css"
+      );
+
+      removeStylesheet("dark.css");
+    }
+
+    if (theme === "dark") {
+      target.classList.add("sl-theme-dark");
+
+      loadStylesheet(
+        "dark.css",
+        "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/dark.css"
+      );
+
+      removeStylesheet("light.css");
+    }
+
+    function loadStylesheet(sheet: string, url: string) {
+      const isLoaded = Array.from(document.styleSheets).some((styleSheet) => {
+        return styleSheet.href?.includes(sheet);
+      });
+
+      if (isLoaded) return;
+
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = url;
+      document.head.appendChild(link);
+    }
+
+    function removeStylesheet(sheet: string) {
+      const links: any = document.querySelectorAll('link[rel="stylesheet"]');
+
+      for (const link of links) {
+        if (!link.href.includes(sheet)) continue;
+        link.parentNode?.removeChild(link);
+      }
+    }
+  }
+</script>

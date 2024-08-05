@@ -3,14 +3,12 @@ title: Query service
 sidebar:
   order: 1
 method: POST
-head:
-  - tag: link
-    attrs: { rel: stylesheet, href: https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/dark.css, onload: document.documentElement.classList.add('sl-theme-dark'); }
-  - tag: script
-    attrs: { type: module, src: https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/shoelace.js }
 ---
-import EditableCode from "../../../../components/EditableCode.astro";
-import ApiTester from "../../../../components/ApiTester.astro";
+import EditableCode from "../../../../components/API/EditableCode.astro";
+import ApiTester from "../../../../components/API/ApiTester.astro";
+import ImportHandler from "../../../../components/API/ImportHandler.astro";
+
+<ImportHandler/>
 
 <div class="api-route">
   <span class="api-route-badge POST">POST</span>

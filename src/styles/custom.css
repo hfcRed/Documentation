@@ -15,14 +15,12 @@ pre {
   border-radius: 0.5rem !important;
 }
 
-/* Dark mode colors. */
 :root {
   --sl-color-accent-low: #430922;
   --sl-color-accent: #c00065;
   --sl-color-accent-high: #fab0c6;
 }
 
-/* Light mode colors. */
 :root[data-theme="light"] {
   --sl-color-accent-low: #fec5d5;
   --sl-color-accent: #c30067;

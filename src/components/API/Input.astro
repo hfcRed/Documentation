@@ -1,0 +1,94 @@
+---
+const {
+  inputType,
+  valueName,
+  valueType,
+  exampleValue,
+  defaultValue,
+  valueDescription,
+  required,
+} = Astro.props;
+---
+
+<div class="api-input-container not-content">
+  <div class="api-input-title">
+    {valueName}
+    <span class="api-input-type api-input-badge">{valueType}</span>
+    {
+      required && (
+        <span class="api-input-required api-input-badge">required</span>
+      )
+    }
+  </div>
+  <input
+    class="api-input"
+    type={inputType}
+    spellcheck="false"
+    placeholder={exampleValue}
+    data-default-value={defaultValue}
+  />
+  <div class="api-input-description">{valueDescription}</div>
+</div>
+
+<style>
+  .api-input-container {
+    margin-top: 1.5rem !important;
+  }
+
+  .api-input {
+    background: var(--sl-color-black);
+    border: solid 1px var(--sl-color-gray-4);
+    color: var(--sl-color-text);
+    font-size: var(--sl-text-xs);
+    border-radius: 0.25rem;
+    outline: none;
+    transition:
+      border-color 0.1s,
+      box-shadow 0.1s;
+    line-height: 1;
+    overflow: hidden;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+
+  .api-input:hover {
+    border-color: var(--sl-color-gray-3);
+  }
+
+  .api-input:focus {
+    border-color: var(--sl-color-accent-high);
+  }
+
+  .api-input-title {
+    display: flex;
+    align-items: center;
+    overflow-wrap: anywhere;
+    gap: 0.5rem;
+  }
+
+  .api-input-badge {
+    font-size: var(--sl-text-xs);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.3rem;
+    line-height: 1.5;
+    min-width: fit-content;
+    margin-left: 0.5rem;
+    margin-right: -0.5rem;
+  }
+
+  .api-input-required {
+    background: var(--sl-color-red);
+    color: var(--sl-color-black);
+  }
+
+  .api-input-type {
+    background: var(--sl-color-gray-5);
+  }
+
+  .api-input-description {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+</style>

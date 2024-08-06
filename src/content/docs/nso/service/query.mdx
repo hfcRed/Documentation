@@ -7,6 +7,7 @@ method: POST
 import EditableCode from "../../../../components/API/EditableCode.astro";
 import ApiTester from "../../../../components/API/ApiTester.astro";
 import ImportHandler from "../../../../components/API/ImportHandler.astro";
+import Input from "../../../../components/API/Input.astro";
 
 <ImportHandler/>
 
@@ -25,6 +26,8 @@ Query data from any of the available microservices. Currently available services
 
 Do not repeat the request with the same data. If you can not solve the issue, please contact me on Discord.
 :::
+
+<Input valueName="HTTP Bearer" valueType="string" required="true" inputType="password" exampleValue="sessiontoken" valueDescription="Uses the sessiontoken generate from the generate token endpoint"/>
 
 ## Authentication 🔒
 

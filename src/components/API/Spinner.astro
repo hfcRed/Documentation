@@ -2,17 +2,12 @@
 
 ---
 
-<div style="display: flex; justify-content: center;">
-  <svg
-    width="10rem"
-    height="10rem"
-    stroke="#000"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
+<api-spinner>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
     ><style>
       .spinner_V8m1 {
         transform-origin: center;
-        animation: spinner_zKoa 2s linear infinite;
+        animation: spinner_zKoa 1.5s linear infinite;
       }
       .spinner_V8m1 circle {
         stroke-linecap: round;
@@ -35,7 +30,7 @@
         95%,
         100% {
           stroke-dasharray: 42 150;
-          stroke-dashoffset: -59;
+          stroke-dashoffset: -57;
         }
       }
     </style><g class="spinner_V8m1"
@@ -44,8 +39,29 @@
         cy="12"
         r="9.5"
         fill="none"
-        stroke="hsl(198.7 97.9% 57.2%)"
-        stroke-width="1"></circle></g
+        stroke="currentColor"
+        stroke-width="3"></circle></g
     ></svg
   >
-</div>
+</api-spinner>
+
+<style>
+  api-spinner {
+    font-size: 1em;
+    width: 1em;
+    height: 1em;
+    position: absolute;
+    top: calc(50% - 0.5em);
+    left: calc(50% - 0.5em);
+  }
+</style>
+
+<script>
+  class ApiSpinner extends HTMLElement {
+    constructor() {
+      super();
+    }
+  }
+
+  customElements.define("api-spinner", ApiSpinner);
+</script>

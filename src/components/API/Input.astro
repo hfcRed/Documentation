@@ -11,14 +11,13 @@ const {
 } = Astro.props;
 ---
 
-<api-input class="not-content">
+<api-input class="not-content" {disabled}>
   <div class="title">
     {valueName}
     <span class="badge badge-type">{valueType}</span>
     {required && <span class="badge badge-required">required</span>}
   </div>
   <input
-    class="api-input"
     type={inputType}
     spellcheck="false"
     placeholder={exampleValue}
@@ -34,7 +33,7 @@ const {
     margin-top: 1.5rem !important;
   }
 
-  .api-input {
+  input {
     border: solid 1px var(--sl-color-gray-4);
     color: var(--sl-color-text);
     font-size: var(--sl-text-sm);
@@ -50,17 +49,17 @@ const {
       box-shadow 0.1s;
   }
 
-  .api-input:hover:not(:disabled) {
+  input:hover:not(:disabled) {
     border-color: var(--sl-color-gray-3);
   }
 
-  .api-input:focus:not(:disabled) {
+  input:focus:not(:disabled) {
     border-color: var(--sl-color-accent-high);
   }
 
-  .api-input:disabled,
-  .api-input:disabled::placeholder {
-    filter: brightness(0.8);
+  input:disabled,
+  input:disabled::placeholder {
+    opacity: 0.6;
     cursor: not-allowed;
   }
 
@@ -98,8 +97,28 @@ const {
 
 <script>
   class ApiInput extends HTMLElement {
+    observer: MutationObserver = new MutationObserver(() => {});
+
     constructor() {
       super();
+    }
+
+    connectedCallback() {
+      this.observer = new MutationObserver(this.updateDisabledState.bind(this));
+      this.observer.observe(this, {
+        attributes: true,
+        attributeFilter: ["disabled"],
+      });
+    }
+
+    disconnectedCallback() {
+      this.observer.disconnect();
+    }
+
+    updateDisabledState() {
+      this.hasAttribute("disabled")
+        ? this.querySelector("input")?.setAttribute("disabled", "")
+        : this.querySelector("input")?.removeAttribute("disabled");
     }
   }
 

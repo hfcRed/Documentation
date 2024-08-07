@@ -106,10 +106,7 @@ const { variant, loading, disabled } = Astro.props;
     }
 
     updateDisabledState() {
-      const state = this.hasAttribute("disabled");
-      console.log(state);
-
-      state
+      this.hasAttribute("disabled")
         ? this.querySelector("button")?.setAttribute("disabled", "")
         : this.querySelector("button")?.removeAttribute("disabled");
     }

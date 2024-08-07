@@ -1,15 +1,16 @@
 ---
 import Spinner from "./Spinner.astro";
 
-const { variant, loading } = Astro.props;
+const { variant, loading, disabled } = Astro.props;
 ---
 
 <api-button
   loading={loading ? "true" : "false"}
   variant={variant ? variant : "filled"}
   class="not-content"
+  {disabled}
 >
-  <button>
+  <button {disabled}>
     <div><slot /></div>
     <Spinner />
   </button>
@@ -39,6 +40,11 @@ const { variant, loading } = Astro.props;
     outline: 2px solid var(--sl-color-white);
   }
 
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   [variant="filled"] button {
     background: var(--sl-color-accent-high);
     color: var(--sl-color-black);
@@ -51,18 +57,18 @@ const { variant, loading } = Astro.props;
     border: 1px solid var(--sl-color-gray-4);
   }
 
-  [variant="filled"]:hover {
+  [variant="filled"] button:hover:not(:disabled) {
     filter: brightness(0.85);
   }
 
-  [variant="outline"]:hover {
+  [variant="outline"] button:hover:not(:disabled) {
     border-color: var(--sl-color-accent-high);
     color: var(--sl-color-accent-high);
     filter: brightness(0.85);
   }
 
-  [variant="filled"]:active,
-  [variant="outline"]:active {
+  [variant="filled"] button:active,
+  [variant="outline"] button:active {
     filter: brightness(1);
   }
 
@@ -81,8 +87,31 @@ const { variant, loading } = Astro.props;
 
 <script>
   class ApiButton extends HTMLElement {
+    observer: MutationObserver = new MutationObserver(() => {});
+
     constructor() {
       super();
+    }
+
+    connectedCallback() {
+      this.observer = new MutationObserver(this.updateDisabledState.bind(this));
+      this.observer.observe(this, {
+        attributes: true,
+        attributeFilter: ["disabled"],
+      });
+    }
+
+    disconnectedCallback() {
+      this.observer.disconnect();
+    }
+
+    updateDisabledState() {
+      const state = this.hasAttribute("disabled");
+      console.log(state);
+
+      state
+        ? this.querySelector("button")?.setAttribute("disabled", "")
+        : this.querySelector("button")?.removeAttribute("disabled");
     }
   }
 

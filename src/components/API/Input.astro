@@ -11,15 +11,11 @@ const {
 } = Astro.props;
 ---
 
-<div class="api-input-container not-content">
-  <div class="api-input-title">
+<api-input class="not-content">
+  <div class="title">
     {valueName}
-    <span class="api-input-type api-input-badge">{valueType}</span>
-    {
-      required && (
-        <span class="api-input-required api-input-badge">required</span>
-      )
-    }
+    <span class="badge badge-type">{valueType}</span>
+    {required && <span class="badge badge-required">required</span>}
   </div>
   <input
     class="api-input"
@@ -29,30 +25,29 @@ const {
     data-default-value={defaultValue}
     {disabled}
   />
-  <div class="api-input-description">{valueDescription}</div>
-</div>
+  <div class="description">{valueDescription}</div>
+</api-input>
 
 <style>
-  .api-input-container {
+  api-input {
+    display: block;
     margin-top: 1.5rem !important;
   }
 
   .api-input {
-    background: var(--sl-color-black);
     border: solid 1px var(--sl-color-gray-4);
     color: var(--sl-color-text);
-    font-size: var(--sl-text-xs);
+    font-size: var(--sl-text-sm);
     border-radius: 0.25rem;
     outline: none;
+    line-height: 1;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 4px;
     transition:
       border-color 0.1s,
       box-shadow 0.1s;
-    line-height: 1;
-    overflow: hidden;
-    padding: 0.5rem 0.75rem;
-    width: 100%;
-    margin-top: 5px;
-    margin-bottom: 3px;
   }
 
   .api-input:hover:not(:disabled) {
@@ -65,19 +60,18 @@ const {
 
   .api-input:disabled,
   .api-input:disabled::placeholder {
-    border-color: var(--sl-color-gray-5);
-    color: var(--sl-color-gray-5);
+    filter: brightness(0.8);
     cursor: not-allowed;
   }
 
-  .api-input-title {
+  .title {
     display: flex;
     align-items: center;
     overflow-wrap: anywhere;
     gap: 0.5rem;
   }
 
-  .api-input-badge {
+  .badge {
     font-size: var(--sl-text-xs);
     border-radius: 0.25rem;
     padding: 0.1rem 0.3rem;
@@ -87,17 +81,27 @@ const {
     margin-right: -0.5rem;
   }
 
-  .api-input-required {
+  .badge-required {
     background: var(--sl-color-red);
     color: var(--sl-color-black);
   }
 
-  .api-input-type {
+  .badge-type {
     background: var(--sl-color-gray-5);
   }
 
-  .api-input-description {
+  .description {
     font-size: var(--sl-text-xs);
     color: var(--sl-color-gray-3);
   }
 </style>
+
+<script>
+  class ApiInput extends HTMLElement {
+    constructor() {
+      super();
+    }
+  }
+
+  customElements.define("api-input", ApiInput);
+</script>

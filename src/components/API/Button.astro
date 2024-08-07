@@ -1,0 +1,92 @@
+---
+import Spinner from "./Spinner.astro";
+
+const { variant, loading } = Astro.props;
+const space = " ";
+---
+
+<api-button
+  loading={loading ? "true" : "false"}
+  variant={variant ? variant : "filled"}
+  class="not-content"
+>
+  <button>
+    <div><slot /></div>
+    <Spinner />
+  </button>
+</api-button>
+
+<style>
+  api-button {
+    display: inline-block;
+  }
+
+  button {
+    vertical-align: middle;
+    font-size: var(--sl-text-sm);
+    border-radius: 0.25rem;
+    padding: 0.5rem 3rem;
+    cursor: pointer;
+    outline-offset: 1px;
+    line-height: 1;
+    position: relative;
+    min-height: 2rem;
+    transition:
+      filter 0.1s,
+      border-color 0.1s,
+      color 0.1s;
+  }
+
+  button:focus-visible {
+    outline: 2px solid var(--sl-color-white);
+  }
+
+  [variant="filled"] button {
+    background: var(--sl-color-accent-high);
+    color: var(--sl-color-black);
+    border: 1px solid var(--sl-color-accent-high);
+  }
+
+  [variant="outline"] button {
+    background: transparent;
+    color: var(--sl-color-text);
+    border: 1px solid var(--sl-color-gray-4);
+  }
+
+  [variant="filled"]:hover {
+    filter: brightness(0.85);
+  }
+
+  [variant="outline"]:hover {
+    border-color: var(--sl-color-accent-high);
+    color: var(--sl-color-accent-high);
+    filter: brightness(0.85);
+  }
+
+  [variant="filled"]:active,
+  [variant="outline"]:active {
+    filter: brightness(1);
+  }
+
+  [loading="true"] div {
+    visibility: hidden;
+  }
+
+  :global(svg) {
+    visibility: hidden;
+  }
+
+  [loading="true"] :global(svg) {
+    visibility: visible;
+  }
+</style>
+
+<script>
+  class ApiButton extends HTMLElement {
+    constructor() {
+      super();
+    }
+  }
+
+  customElements.define("api-button", ApiButton);
+</script>

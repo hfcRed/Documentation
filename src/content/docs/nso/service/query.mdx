@@ -8,6 +8,7 @@ import EditableCode from "../../../../components/API/EditableCode.astro";
 import ApiTester from "../../../../components/API/ApiTester.astro";
 import ImportHandler from "../../../../components/API/ImportHandler.astro";
 import Input from "../../../../components/API/Input.astro";
+import Button from "../../../../components/API/Button.astro";
 
 <ImportHandler/>
 
@@ -28,6 +29,23 @@ Do not repeat the request with the same data. If you can not solve the issue, pl
 :::
 
 <Input valueName="HTTP Bearer" valueType="string" required disabled inputType="password" exampleValue="sessiontoken" valueDescription="Uses the sessiontoken generate from the generate token endpoint"/>
+
+<Button filled loading>aaaaaaaaa</Button>
+<Button variant="outline">a</Button>
+
+<sl-button
+loading
+  class="request-test"
+  size="small"
+  style="width: 15%"
+  variant="primary">aaa</sl-button>
+
+<sl-button
+loading
+  class="request-test"
+  size="small"
+  style="width: 15%"
+  variant="primary"></sl-button>
 
 ## Authentication 🔒
 

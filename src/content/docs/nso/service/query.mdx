@@ -9,6 +9,8 @@ import ApiTester from "../../../../components/API/ApiTester.astro";
 import ImportHandler from "../../../../components/API/ImportHandler.astro";
 import Input from "../../../../components/API/Input.astro";
 import Button from "../../../../components/API/Button.astro";
+import Tree from "../../../../components/API/Tree.astro";
+import { FileTree } from '@astrojs/starlight/components';
 
 <ImportHandler/>
 
@@ -28,16 +30,40 @@ Query data from any of the available microservices. Currently available services
 Do not repeat the request with the same data. If you can not solve the issue, please contact me on Discord.
 :::
 
-<Input valueName="HTTP Bearer" valueType="string" required disabled inputType="text" exampleValue="sessiontoken" valueDescription="Uses the sessiontoken generate from the generate token endpoint"/>
+<Tree>
+  - Object
+    - id (description: test) (type: string) (required)
+    - name (description: test) (type: string) (required)
+    - category
+      - type (description: test) (type: string) (required)
+      - relevance (description: test) (type: string) (required)
+      - subsub
+        - why
+        - not
+        - subsubsub
+          - aaaaaa
+          - bbbbbb
+    - test
+    - subcategory
+      - rating (description: test) (type: string) (required)
+      - retired (description: test) (type: string) (required)
+      - subbywubby
+        - yyyyyy
+    - zzzzzz
+</Tree>
 
-<Button filled loading disabled>aaaaaaaaa</Button>
-<Button variant="outline">a</Button>
+<FileTree>
+  - Object
+    - id (description: test) (type: string) (required)
+    - name (description: test) (type: string) (required)
+    - category
+      - id (description: test) (type: string) (required)
+      - name (description: test) (type: string) (required)
+</FileTree>
 
 ## Authentication 🔒
 
-<sl-input id="header_Authorization" size="small" type="password" label="HTTP Bearer" placeholder="sessiontoken"></sl-input>
-
-Uses the sessiontoken generate from the [generate token](/nso/authorization/sessiontoken) endpoint.
+<Input valueName="HTTP Bearer" valueType="string" required inputType="text" exampleValue="sessiontoken" valueDescription="Uses the sessiontoken generate from the generate token endpoint"/>
 
 ## Request
 

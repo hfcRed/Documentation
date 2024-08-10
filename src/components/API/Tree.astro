@@ -2,8 +2,7 @@
 const html = await Astro.slots.render("default");
 const flat = html.replace(/(\r\n|\n|\r)/gm, "");
 
-const test = buildTree(flat);
-const final = test;
+const tree = buildTree(flat);
 
 function buildTree(html: string): string {
   const array = html.split("<ul>");
@@ -17,14 +16,15 @@ function buildTree(html: string): string {
 
   let childElements: string[][] = [[]];
   let directories = [];
+
   for (const child of children) {
+    let index = childElements.length - 1;
+
     if (!child.includes("</li>")) {
       childElements.push([]);
       directories.push(child);
       continue;
     }
-
-    let index = childElements.length - 1;
 
     const data = child.split("</li>").shift() || "";
     const name = data.split(" ")[0];
@@ -32,48 +32,50 @@ function buildTree(html: string): string {
     const regex = /\(([^)]+)\)/g;
     const matches = [...data.matchAll(regex)].map((match) => match[1]);
 
-    const itemData = { name, description: "", type: "", required: false };
+    let elementName = `<span class="name">${name}</span>`;
+    let elementType = "";
+    let elementRequired = "";
+    let elementDescription = "";
 
     for (const match of matches) {
       const parts = match.split(":");
 
       switch (parts[0]) {
-        case "description":
-          const description = (parts[1] || "").trim();
-          itemData.description = description;
-          break;
         case "type":
           const type = (parts[1] || "").trim();
-          itemData.type = type;
+          elementType = `<span class="badge badge-type">${type}</span>`;
           break;
         case "required":
-          itemData.required = true;
+          elementRequired = `<span class="badge badge-required">required</span>`;
+          break;
+        case "description":
+          const description = (parts[1] || "").trim();
+          elementDescription = `<span class="description">${description}</span>`;
           break;
       }
     }
 
-    const element = `<li><span><span>${itemData.name}</span><span>${itemData.type}</span><span>required</span></span><span>${itemData.description}</span></li>`;
+    const element = `<li><span class="item">${elementName}${elementType}${elementRequired}${elementDescription}</span></li>`;
     childElements[index].push(element);
 
-    if (child.includes("</ul>")) {
+    if (child.includes("</ul>") && index > 0 && childElements.length > 0) {
       const count = child.split("</ul>").length - 1;
 
-      if (childElements.length == 0 || index == 0) continue;
       for (let i = 0; i < count; i++) {
         const last = childElements.pop() || [];
+
         childElements[index - 1].push(
-          `<li><details open><summary>${directories[index - 1]}</summary><ul>${last.join("")}</ul></details></li>`
+          `<li><details class="directory" open><summary>${directories[index - 1]}</summary><ul>${last.join("")}</ul></details></li>`
         );
+
         directories.pop();
         index--;
       }
     }
   }
 
-  const tree = `<details open><summary>${directory}</summary><ul>${childElements[0].join("")}</ul></details>`;
-
-  return tree;
+  return `<details open><summary>${directory}</summary><ul>${childElements[0].join("")}</ul></details>`;
 }
 ---
 
-<api-tree set:html={final} class="not-content" />
+<api-tree set:html={tree} class="not-content" />

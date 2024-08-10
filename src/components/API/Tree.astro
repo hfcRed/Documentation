@@ -6,15 +6,15 @@ const test = buildTree(flat);
 // console.log(test);
 
 function buildTree(html: string): {
-  directory: string[];
-  childNames: string[];
-  allChildren: string[];
+  childElements: string[];
+  allElements: string[];
 } {
   const array = html.split("<ul>");
   array.shift();
+
   const directory = array.shift()?.split("<li>").slice(-1);
   if (!directory || array.length == 0)
-    return { directory: [], childNames: [], allChildren: [] };
+    return { childElements: [], allElements: [] };
 
   let subDirectories = [];
   let accumulator = [];
@@ -31,6 +31,7 @@ function buildTree(html: string): {
     if (child.includes("</ul>")) {
       accumulator.push("<ul>" + child.split("</ul>")[0] + "</ul>");
       subDirectories.push(accumulator);
+
       accumulator = [];
       accumulator.push("<ul>" + child);
     }
@@ -38,35 +39,60 @@ function buildTree(html: string): {
 
   const children = array.join("").split("<li>");
   children.shift();
-  let childNames = [];
+
+  let childElements = [];
   for (const child of children) {
-    const data = child.split("<").shift()?.split(" ").shift();
-    if (data) childNames.push(data);
+    if (!child.includes("</li>")) continue;
+
+    const data = child.split("</li>").shift() || "";
+    const name = data.split(" ")[0];
+
+    const regex = /\(([^)]+)\)/g;
+    const matches = [...data.matchAll(regex)].map((match) => match[1]);
+
+    const itemData = { name, description: "", type: "", required: false };
+
+    for (const match of matches) {
+      const parts = match.split(":");
+
+      switch (parts[0]) {
+        case "description":
+          const description = (parts[1] || "").trim();
+          itemData.description = description;
+          break;
+        case "type":
+          const type = (parts[1] || "").trim();
+          itemData.type = type;
+          break;
+        case "required":
+          itemData.required = true;
+          break;
+      }
+    }
+
+    const element = `<li><span><span>${itemData.name}</span><span>${itemData.type}</span><span>required</span></span><span>${itemData.description}</span></li>`;
+    childElements.push(element);
   }
 
-  let allChildren: string[] = [...childNames, ...directory];
+  let allElements: string[] = [];
 
   for (const sub of subDirectories) {
-    const {
-      directory: returnDirectory,
-      childNames: returnChildren,
-      allChildren: childAccumulator,
-    } = buildTree(sub.join(""));
+    const { childElements: returnElements, allElements: elementAccumulator } =
+      buildTree(sub.join(""));
 
-    childNames = childNames.filter((name) => !returnChildren.includes(name));
-    childNames = childNames.filter((name) => !childAccumulator.includes(name));
-    childNames = childNames.filter((name) => !returnDirectory.includes(name));
-
-    allChildren = allChildren.concat(
-      returnChildren,
-      childAccumulator,
-      returnDirectory
+    childElements = childElements.filter(
+      (name) => !returnElements.includes(name)
     );
+    childElements = childElements.filter(
+      (name) => !elementAccumulator.includes(name)
+    );
+
+    allElements = [...childElements, ...returnElements, ...elementAccumulator];
   }
 
-  console.log(childNames);
+  console.log(childElements);
 
-  return { directory, childNames, allChildren };
+  return { childElements, allElements };
 }
 ---
 

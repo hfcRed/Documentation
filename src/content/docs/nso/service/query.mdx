@@ -31,35 +31,16 @@ Do not repeat the request with the same data. If you can not solve the issue, pl
 :::
 
 <Tree>
-  - Object
-    - id (description: test) (type: string) (required)
+  - Pet
+    - id (description: test) (type: int)
     - name (description: test) (type: string) (required)
     - category
-      - type (description: test) (type: string) (required)
-      - relevance (description: test) (type: string) (required)
-      - subsub
-        - why
-        - not
-        - subsubsub
-          - aaaaaa
-          - bbbbbb
-    - test
-    - subcategory
-      - rating (description: test) (type: string) (required)
-      - retired (description: test) (type: string) (required)
-      - subbywubby
-        - yyyyyy
-    - zzzzzz
-</Tree>
-
-<FileTree>
-  - Object
-    - id (description: test) (type: string) (required)
-    - name (description: test) (type: string) (required)
-    - category
-      - id (description: test) (type: string) (required)
+      - id (description: test) (type: int) (required)
       - name (description: test) (type: string) (required)
-</FileTree>
+    - photoUrls (description: test) (type: [string]) (required)
+    - tags (description: test) (type: [object])
+    - status (description: test) (type: string)
+</Tree>
 
 ## Authentication 🔒
 

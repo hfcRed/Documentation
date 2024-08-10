@@ -43,10 +43,10 @@ function buildTree(html: string): string {
       switch (parts[0]) {
         case "type":
           const type = (parts[1] || "").trim();
-          elementType = `<span class="badge badge-type">${type}</span>`;
+          elementType = `<span class="type">${type}</span>`;
           break;
         case "required":
-          elementRequired = `<span class="badge badge-required">required</span>`;
+          elementRequired = `<span class="required">*</span>`;
           break;
         case "description":
           const description = (parts[1] || "").trim();
@@ -55,7 +55,7 @@ function buildTree(html: string): string {
       }
     }
 
-    const element = `<li><span class="item">${elementName}${elementType}${elementRequired}${elementDescription}</span></li>`;
+    const element = `<li><span class="item"><span class="name-container"><span>${elementName}${elementRequired}</span>${elementType}</span>${elementDescription}</span></li>`;
     childElements[index].push(element);
 
     if (child.includes("</ul>") && index > 0 && childElements.length > 0) {
@@ -79,3 +79,93 @@ function buildTree(html: string): string {
 ---
 
 <api-tree set:html={tree} class="not-content" />
+
+<style>
+  api-tree {
+    font-size: var(--sl-text-xs);
+    font-family: var(--sl-font-mono);
+    border: 1px solid var(--sl-color-gray-5);
+    background-color: var(--sl-color-gray-6);
+    display: block;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+
+  api-tree :global(details) {
+    min-width: fit-content;
+  }
+
+  api-tree :global(summary) {
+    color: var(--sl-color-white);
+    padding: 0.1rem 0.5rem;
+    cursor: pointer;
+    transition: color 0.1s;
+  }
+
+  api-tree :global(summary:hover) {
+    color: var(--sl-color-accent-high);
+  }
+
+  api-tree :global(summary:hover ~ ul) {
+    border-color: var(--sl-color-accent-high);
+  }
+
+  api-tree :global(li) {
+    list-style-type: none;
+  }
+
+  api-tree :global(ul) {
+    border-left: 1px solid var(--sl-color-gray-5);
+    margin-left: 0.7rem;
+    padding-left: 1rem;
+    transition: border-color 0.1s;
+  }
+
+  api-tree :global(.item) {
+    display: flex;
+    align-items: center;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: background 0.1s;
+  }
+
+  api-tree :global(.item:hover) {
+    background: var(--sl-color-gray-5);
+  }
+
+  api-tree :global(.name) {
+    min-width: fit-content;
+  }
+
+  api-tree :global(.description) {
+    margin-left: auto;
+    padding-left: 1.5rem;
+    word-break: break-all;
+  }
+
+  api-tree :global(.required) {
+    color: var(--sl-color-red);
+    margin-left: 2px;
+  }
+
+  api-tree :global(.type) {
+    color: var(--sl-color-gray-3);
+    margin-top: -0.25rem;
+  }
+
+  api-tree :global(.name-container) {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+
+<script>
+  class ApiTree extends HTMLElement {
+    constructor() {
+      super();
+    }
+  }
+
+  customElements.define("api-tree", ApiTree);
+</script>

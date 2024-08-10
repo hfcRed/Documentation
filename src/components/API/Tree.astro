@@ -3,46 +3,28 @@ const html = await Astro.slots.render("default");
 const flat = html.replace(/(\r\n|\n|\r)/gm, "");
 
 const test = buildTree(flat);
-// console.log(test);
+const final = test;
 
-function buildTree(html: string): {
-  childElements: string[];
-  allElements: string[];
-} {
+function buildTree(html: string): string {
   const array = html.split("<ul>");
   array.shift();
 
-  const directory = array.shift()?.split("<li>").slice(-1);
-  if (!directory || array.length == 0)
-    return { childElements: [], allElements: [] };
-
-  let subDirectories = [];
-  let accumulator = [];
-  for (const child of array) {
-    if (array.indexOf(child) == 0) {
-      accumulator.push("<ul>" + child);
-      continue;
-    }
-
-    if (!child.includes("</ul>")) {
-      accumulator.push("<ul>" + child);
-    }
-
-    if (child.includes("</ul>")) {
-      accumulator.push("<ul>" + child.split("</ul>")[0] + "</ul>");
-      subDirectories.push(accumulator);
-
-      accumulator = [];
-      accumulator.push("<ul>" + child);
-    }
-  }
+  const directory = array.shift()?.split("<li>").slice(-1)[0];
+  if (!directory || array.length == 0) return "";
 
   const children = array.join("").split("<li>");
   children.shift();
 
-  let childElements = [];
+  let childElements: string[][] = [[]];
+  let directories = [];
   for (const child of children) {
-    if (!child.includes("</li>")) continue;
+    if (!child.includes("</li>")) {
+      childElements.push([]);
+      directories.push(child);
+      continue;
+    }
+
+    let index = childElements.length - 1;
 
     const data = child.split("</li>").shift() || "";
     const name = data.split(" ")[0];
@@ -71,29 +53,27 @@ function buildTree(html: string): {
     }
 
     const element = `<li><span><span>${itemData.name}</span><span>${itemData.type}</span><span>required</span></span><span>${itemData.description}</span></li>`;
-    childElements.push(element);
+    childElements[index].push(element);
+
+    if (child.includes("</ul>")) {
+      const count = child.split("</ul>").length - 1;
+
+      if (childElements.length == 0 || index == 0) continue;
+      for (let i = 0; i < count; i++) {
+        const last = childElements.pop() || [];
+        childElements[index - 1].push(
+          `<li><details open><summary>${directories[index - 1]}</summary><ul>${last.join("")}</ul></details></li>`
+        );
+        directories.pop();
+        index--;
+      }
+    }
   }
 
-  let allElements: string[] = [];
+  const tree = `<details open><summary>${directory}</summary><ul>${childElements[0].join("")}</ul></details>`;
 
-  for (const sub of subDirectories) {
-    const { childElements: returnElements, allElements: elementAccumulator } =
-      buildTree(sub.join(""));
-
-    childElements = childElements.filter(
-      (name) => !returnElements.includes(name)
-    );
-    childElements = childElements.filter(
-      (name) => !elementAccumulator.includes(name)
-    );
-
-    allElements = [...childElements, ...returnElements, ...elementAccumulator];
-  }
-
-  console.log(childElements);
-
-  return { childElements, allElements };
+  return tree;
 }
 ---
 
-<api-tree set:html={html} class="not-content" />
+<api-tree set:html={final} class="not-content" />

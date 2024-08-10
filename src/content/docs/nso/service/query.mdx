@@ -26,6 +26,7 @@ Query data from any of the available microservices. Currently available services
 
 :::danger
 502 response codes should be treated with respect! It means something went wrong while trying to authenticate with Nintendo.
+Please read the section [handling 502 responses](#handling-502-responses) for more information.
 
 Do not repeat the request with the same data. If you can not solve the issue, please contact me on Discord.
 :::
@@ -61,12 +62,7 @@ Do not repeat the request with the same data. If you can not solve the issue, pl
 
 Requires an array of simple and/or complex queries that you want to perform on the given service
 
-<sl-tab-group>
-  <sl-tab slot="nav" panel="example">Example</sl-tab>
-  <sl-tab slot="nav" panel="schema">Schema</sl-tab>
-
-  <sl-tab-panel name="example">
-    <EditableCode language="json" id="request-body">
+<EditableCode language="json" id="request-body">
       ```
       {
         "simpleQueries": [
@@ -77,28 +73,7 @@ Requires an array of simple and/or complex queries that you want to perform on t
         ]
       }
       ```
-    </ EditableCode>
-  </sl-tab-panel>
-  <sl-tab-panel name="schema">
-    <sl-tree class="tree-with-lines">
-      <sl-tree-item expanded>
-        <span>Object</span>
-        <sl-tree-item>
-          <div class="tree-two-columns">
-            <div>simpleQueries: [string]</div>
-            <div>String array of simple queries you want to perform on the given service</div>
-          </div>
-        </sl-tree-item>
-        <sl-tree-item>
-          <div class="tree-two-columns">
-            <span>detailedQueries: [object]</span>
-            <span>String array of complex queries you want to perform on the given service</span>
-          </div>
-        </sl-tree-item>
-      </sl-tree-item>
-    </sl-tree>
-  </sl-tab-panel>
-</sl-tab-group>
+</ EditableCode>
 
 <ApiTester url="/service/query" />
 
@@ -119,3 +94,5 @@ Success
   <sl-tab slot="nav" panel="example">Example</sl-tab>
   <sl-tab slot="nav" panel="schema">Schema</sl-tab>
 </ sl-tab-group>
+
+### Handling 502 responses

@@ -6,13 +6,10 @@ method: POST
 ---
 import EditableCode from "../../../../components/API/EditableCode.astro";
 import ApiTester from "../../../../components/API/ApiTester.astro";
-import ImportHandler from "../../../../components/API/ImportHandler.astro";
 import Input from "../../../../components/API/Input.astro";
 import Button from "../../../../components/API/Button.astro";
 import Tree from "../../../../components/API/Tree.astro";
 import { FileTree } from '@astrojs/starlight/components';
-
-<ImportHandler/>
 
 <div class="api-route">
   <span class="api-route-badge POST">POST</span>
@@ -51,12 +48,7 @@ Do not repeat the request with the same data. If you can not solve the issue, pl
 
 #### Parameters
 
-<sl-input id="parameter_service" size="small" label="Service ❗" help-text="Name of the service you want to query" placeholder="splatnet3"></sl-input>
-
 #### Headers
-
-<sl-input id="header_X-Agent" size="small" label="X-Agent ❗" help-text="Name of your application or contact information" placeholder="docs/v1.0.0"></sl-input>
-<sl-input id="header_X-Language" size="small" label="X-Language" help-text="Language for the query results (unused)" placeholder="en-US"></sl-input>
 
 #### Body ❗
 
@@ -78,21 +70,5 @@ Requires an array of simple and/or complex queries that you want to perform on t
 <ApiTester url="/service/query" />
 
 ## Response
-
-<sl-radio-group name="responses" value="1" size="small">
-  <sl-radio-button value="1">200</sl-radio-button>
-  <sl-radio-button value="2">400</sl-radio-button>
-  <sl-radio-button value="3">401</sl-radio-button>
-  <sl-radio-button value="4">429</sl-radio-button>
-  <sl-radio-button value="5">500</sl-radio-button>
-  <sl-radio-button value="6">502</sl-radio-button>
-</sl-radio-group>
-
-Success
-
-<sl-tab-group>
-  <sl-tab slot="nav" panel="example">Example</sl-tab>
-  <sl-tab slot="nav" panel="schema">Schema</sl-tab>
-</ sl-tab-group>
 
 ### Handling 502 responses

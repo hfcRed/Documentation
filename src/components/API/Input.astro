@@ -12,11 +12,11 @@ const {
 ---
 
 <api-input class="not-content" {disabled}>
-  <div class="title">
+  <span class="title">
     {valueName}
     <span class="badge badge-type">{valueType}</span>
     {required && <span class="badge badge-required">required</span>}
-  </div>
+  </span>
   <input
     type={inputType}
     spellcheck="false"
@@ -24,13 +24,12 @@ const {
     data-default-value={defaultValue}
     {disabled}
   />
-  <div class="description">{valueDescription}</div>
+  <span class="description">{valueDescription}</span>
 </api-input>
 
 <style>
   api-input {
     display: block;
-    margin-top: 1.5rem !important;
   }
 
   input {
@@ -44,10 +43,7 @@ const {
     padding: 0.5rem 1rem;
     width: 100%;
     margin-top: 6px;
-    margin-bottom: 4px;
-    transition:
-      border-color 0.1s,
-      box-shadow 0.1s;
+    transition: border-color 0.1s;
   }
 
   input:hover:not(:disabled) {

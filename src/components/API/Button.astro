@@ -76,7 +76,7 @@ const { variant, loading, disabled } = Astro.props;
     visibility: hidden;
   }
 
-  :global(api-spinner) {
+  [loading="false"] :global(api-spinner) {
     visibility: hidden;
   }
 

@@ -12,11 +12,11 @@ const {
 ---
 
 <api-input class="not-content" {disabled}>
-  <span class="title">
+  <div class="title">
     {valueName}
     <span class="badge badge-type">{valueType}</span>
     {required && <span class="badge badge-required">required</span>}
-  </span>
+  </div>
   <input
     type={inputType}
     spellcheck="false"
@@ -24,7 +24,7 @@ const {
     data-default-value={defaultValue}
     {disabled}
   />
-  <span class="description">{valueDescription}</span>
+  <p class="description">{valueDescription}</p>
 </api-input>
 
 <style>
@@ -43,6 +43,7 @@ const {
     padding: 0.5rem 1rem;
     width: 100%;
     margin-top: 6px;
+    margin-bottom: 4px;
     transition: border-color 0.1s;
   }
 

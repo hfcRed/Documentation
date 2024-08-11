@@ -55,7 +55,7 @@ function buildTree(html: string): string {
       }
     }
 
-    const element = `<li><span class="item"><span class="name-container"><span>${elementName}${elementRequired}</span>${elementType}</span>${elementDescription}</span></li>`;
+    const element = `<li><div class="item"><span class="name-container"><span>${elementName}${elementRequired}</span>${elementType}</span>${elementDescription}</div></li>`;
     childElements[index].push(element);
 
     if (child.includes("</ul>") && index > 0 && childElements.length > 0) {
@@ -134,16 +134,10 @@ function buildTree(html: string): string {
     background: var(--sl-color-gray-5);
   }
 
-  api-tree :global(.description) {
-    color: var(--sl-color-gray-3);
-    margin-left: auto;
-    padding-left: 1.5rem;
-    text-align: right;
-  }
-
-  api-tree :global(.required) {
-    color: var(--sl-color-red);
-    margin-left: 2px;
+  api-tree :global(.name-container) {
+    min-width: fit-content;
+    display: flex;
+    flex-direction: column;
   }
 
   api-tree :global(.type) {
@@ -151,10 +145,16 @@ function buildTree(html: string): string {
     margin-top: -0.25rem;
   }
 
-  api-tree :global(.name-container) {
-    min-width: fit-content;
-    display: flex;
-    flex-direction: column;
+  api-tree :global(.required) {
+    color: var(--sl-color-red);
+    margin-left: 2px;
+  }
+
+  api-tree :global(.description) {
+    color: var(--sl-color-gray-3);
+    margin-left: auto;
+    padding-left: 1.5rem;
+    text-align: right;
   }
 </style>
 

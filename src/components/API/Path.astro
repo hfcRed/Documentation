@@ -1,11 +1,10 @@
 ---
 const { method } = Astro.props;
-const html = await Astro.slots.render("default");
-console.log(html);
 ---
 
-<api-path set:html={html} method={method} class="not-content">
-  <span class="badge">{method}</span>
+<api-path method={method} class="not-content">
+  <p class="badge">{method}</p>
+  <slot />
 </api-path>
 
 <style>
@@ -18,13 +17,13 @@ console.log(html);
     gap: 0.5rem 1rem;
   }
 
-  api-path :global(p) {
+  api-path :global(p:last-of-type) {
     font-size: var(--sl-text-2xl);
     line-height: var(--sl-line-height-headings);
     margin-bottom: auto;
   }
 
-  span {
+  .badge {
     color: var(--sl-color-gray-1);
     max-width: fit-content;
     border-radius: 0.25rem;
@@ -32,19 +31,19 @@ console.log(html);
     padding: 0 1rem;
   }
 
-  [method="GET"] span {
+  [method="GET"] .badge {
     background-color: var(--sl-badge-note-bg);
     border-color: var(--sl-badge-note-border);
     color: var(--sl-badge-note-text);
   }
 
-  [method="POST"] span {
+  [method="POST"] .badge {
     background-color: var(--sl-badge-success-bg);
     border-color: var(--sl-badge-success-border);
     color: var(--sl-badge-success-text);
   }
 
-  [method="DELETE"] span {
+  [method="DELETE"] .badge {
     background-color: var(--sl-badge-danger-bg);
     border-color: var(--sl-badge-danger-border);
     color: var(--sl-badge-danger-text);

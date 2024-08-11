@@ -11,7 +11,7 @@ const { variant, loading, disabled } = Astro.props;
   {disabled}
 >
   <button {disabled}>
-    <div><slot /></div>
+    <slot />
     <Spinner />
   </button>
 </api-button>
@@ -67,12 +67,12 @@ const { variant, loading, disabled } = Astro.props;
     filter: brightness(0.85);
   }
 
-  [variant="filled"] button:active,
-  [variant="outline"] button:active {
+  [variant="filled"] button:active:not(:disabled),
+  [variant="outline"] button:active:not(:disabled) {
     filter: brightness(1);
   }
 
-  [loading="true"] div {
+  [loading="true"] :global(p) {
     visibility: hidden;
   }
 

@@ -9,12 +9,11 @@ import ApiTester from "../../../../components/API/ApiTester.astro";
 import Input from "../../../../components/API/Input.astro";
 import Button from "../../../../components/API/Button.astro";
 import Tree from "../../../../components/API/Tree.astro";
-import { FileTree } from '@astrojs/starlight/components';
+import Path from "../../../../components/API/Path.astro";
 
-<div class="api-route">
-  <span class="api-route-badge POST">POST</span>
-  <span class="api-route-text">/\{service}/query</span>
-</div>
+<Path method="POST">
+/\{service\}/query
+</Path>
 
 Query data from any of the available microservices. Currently available services are:
 

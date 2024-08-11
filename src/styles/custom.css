@@ -1,20 +1,3 @@
-img {
-  border-radius: 0.5rem;
-}
-
-aside {
-  border-radius: 0 0.5rem 0.5rem 0;
-}
-
-code {
-  border-radius: 0.25rem;
-}
-
-.card,
-pre {
-  border-radius: 0.5rem !important;
-}
-
 :root {
   --sl-color-accent-low: #430922;
   --sl-color-accent: #c00065;
@@ -27,7 +10,17 @@ pre {
   --sl-color-accent-high: #600030;
 }
 
-.button {
+aside {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+pre,
+img,
+.card {
+  border-radius: 0.5rem !important;
+}
+
+a.button {
   background: var(--sl-color-text-accent) !important;
   color: var(--sl-color-black) !important;
   font-size: var(--sl-text-base);

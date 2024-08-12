@@ -4,7 +4,7 @@ sidebar:
   order: 1
 method: POST
 ---
-import EditableCode from "../../../../components/API/EditableCode.astro";
+import DynamicCode from "../../../../components/API/DynamicCode.astro";
 import ApiTester from "../../../../components/API/ApiTester.astro";
 import Input from "../../../../components/API/Input.astro";
 import Button from "../../../../components/API/Button.astro";
@@ -15,10 +15,6 @@ import Path from "../../../../components/API/Path.astro";
 /\{service\}/query
 </Path>
 
-<Button>
-Test
-</Button>
-
 Query data from any of the available microservices. Currently available services are:
 
 * Coral
@@ -28,22 +24,10 @@ Query data from any of the available microservices. Currently available services
 502 response codes should be treated with respect! It means something went wrong while trying to authenticate with Nintendo.
 Please read the section [handling 502 responses](#handling-502-responses) for more information.
 
-Do not repeat the request with the same data. If you can not solve the issue, please contact me on Discord.
+Refrain from repeating the request with the same data. If you can not solve the issue, please contact me on Discord.
 :::
 
-<Tree>
-  - Pet
-    - id (type: int)
-    - name (description: Must be longer than 3 letters) (type: string) (required)
-    - category
-      - id (type: int) (required)
-      - name (type: string) (required)
-    - photoUrls (description: Array of urls that will be displayed on the pets site) (type: [string]) (required)
-    - tags (type: [object])
-    - status (description: Pets availability in the store. Can be available, pending or sold) (type: string)
-</Tree>
-
-## Authentication 🔒
+## Authorization 🔒
 
 <Input valueName="HTTP Bearer" valueType="string" required inputType="text" exampleValue="sessiontoken" valueDescription="Uses the sessiontoken generate from the generate token endpoint"/>
 
@@ -57,7 +41,7 @@ Do not repeat the request with the same data. If you can not solve the issue, pl
 
 Requires an array of simple and/or complex queries that you want to perform on the given service
 
-<EditableCode language="json" id="request-body">
+<DynamicCode language="json" id="request-body">
       ```
       {
         "simpleQueries": [
@@ -68,7 +52,8 @@ Requires an array of simple and/or complex queries that you want to perform on t
         ]
       }
       ```
-</ EditableCode>
+</ DynamicCode>
+
 
 <ApiTester url="/service/query" />
 

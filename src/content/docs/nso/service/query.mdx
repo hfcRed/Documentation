@@ -4,12 +4,7 @@ sidebar:
   order: 1
 method: POST
 ---
-import DynamicCode from "../../../../components/API/DynamicCode.astro";
-import ApiTester from "../../../../components/API/ApiTester.astro";
-import Input from "../../../../components/API/Input.astro";
-import Button from "../../../../components/API/Button.astro";
-import Tree from "../../../../components/API/Tree.astro";
-import Path from "../../../../components/API/Path.astro";
+import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester } from "../../../../components/API/components.js"
 
 <Path method="POST">
 /\{service\}/query
@@ -29,7 +24,9 @@ Refrain from repeating the request with the same data. If you can not solve the 
 
 ## Authorization 🔒
 
-<Input valueName="HTTP Bearer" valueType="string" required inputType="text" exampleValue="sessiontoken" valueDescription="Uses the sessiontoken generate from the generate token endpoint"/>
+<AuthorizationHandler>
+  <Input required valueName="HTTP Bearer" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" inputType="password" inputExample="sessiontoken"/>
+</ AuthorizationHandler>
 
 ## Request
 

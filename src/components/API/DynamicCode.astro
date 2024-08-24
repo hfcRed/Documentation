@@ -11,7 +11,8 @@ const { language, disabled } = Astro.props;
 
 <script>
   class ApiDynamicCode extends HTMLElement {
-    observer: MutationObserver = new MutationObserver(() => {});
+    static observedAttributes = ["disabled"];
+
     textArea: any;
     code: any;
 
@@ -19,13 +20,13 @@ const { language, disabled } = Astro.props;
       super();
     }
 
-    connectedCallback() {
-      this.observer = new MutationObserver(this.updateDisabledState.bind(this));
-      this.observer.observe(this, {
-        attributes: true,
-        attributeFilter: ["disabled"],
-      });
+    attributeChangedCallback() {
+      this.hasAttribute("disabled")
+        ? this.querySelector("textarea")?.setAttribute("disabled", "")
+        : this.querySelector("textarea")?.removeAttribute("disabled");
+    }
 
+    connectedCallback() {
       const codeLines = this.querySelectorAll(
         ".ec-line"
       ) as NodeListOf<HTMLElement>;
@@ -125,12 +126,6 @@ const { language, disabled } = Astro.props;
 
       // @ts-ignore
       Prism.highlightElement(this.code);
-    }
-
-    updateDisabledState() {
-      this.hasAttribute("disabled")
-        ? this.querySelector("textarea")?.setAttribute("disabled", "")
-        : this.querySelector("textarea")?.removeAttribute("disabled");
     }
 
     insertTab() {

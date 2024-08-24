@@ -95,25 +95,13 @@ const {
 
 <script>
   class ApiInput extends HTMLElement {
-    observer: MutationObserver = new MutationObserver(() => {});
+    static observedAttributes = ["disabled"];
 
     constructor() {
       super();
     }
 
-    connectedCallback() {
-      this.observer = new MutationObserver(this.updateDisabledState.bind(this));
-      this.observer.observe(this, {
-        attributes: true,
-        attributeFilter: ["disabled"],
-      });
-    }
-
-    disconnectedCallback() {
-      this.observer.disconnect();
-    }
-
-    updateDisabledState() {
+    attributeChangedCallback() {
       this.hasAttribute("disabled")
         ? this.querySelector("input")?.setAttribute("disabled", "")
         : this.querySelector("input")?.removeAttribute("disabled");

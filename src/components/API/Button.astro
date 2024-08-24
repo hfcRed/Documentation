@@ -87,25 +87,13 @@ const { variant, loading, disabled } = Astro.props;
 
 <script>
   class ApiButton extends HTMLElement {
-    observer: MutationObserver = new MutationObserver(() => {});
+    static observedAttributes = ["disabled"];
 
     constructor() {
       super();
     }
 
-    connectedCallback() {
-      this.observer = new MutationObserver(this.updateDisabledState.bind(this));
-      this.observer.observe(this, {
-        attributes: true,
-        attributeFilter: ["disabled"],
-      });
-    }
-
-    disconnectedCallback() {
-      this.observer.disconnect();
-    }
-
-    updateDisabledState() {
+    attributeChangedCallback() {
       this.hasAttribute("disabled")
         ? this.querySelector("button")?.setAttribute("disabled", "")
         : this.querySelector("button")?.removeAttribute("disabled");

@@ -1,11 +1,11 @@
 ---
 import "./prism.css";
-const { language, disabled } = Astro.props;
+const { disabled, language, name } = Astro.props;
 ---
 
 <api-dynamic-code class="not-content" {disabled}>
   <slot />
-  <textarea spellcheck="false" hidden {disabled}></textarea>
+  <textarea spellcheck="false" name={name} hidden {disabled}></textarea>
   <pre aria-hidden="true" hidden><code class={`language-${language}`} /></pre>
 </api-dynamic-code>
 

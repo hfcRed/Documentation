@@ -6,3 +6,4 @@ export { default as Input } from './Input.astro';
 export { default as Path } from './Path.astro';
 export { default as Spinner } from './Spinner.astro';
 export { default as Tree } from './Tree.astro';
+export { default as Required } from './Required.astro';

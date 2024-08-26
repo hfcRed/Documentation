@@ -9,6 +9,42 @@ const { disabled, language, name } = Astro.props;
   <pre aria-hidden="true" hidden><code class={`language-${language}`} /></pre>
 </api-dynamic-code>
 
+<style>
+  api-dynamic-code {
+    display: block;
+  }
+
+  api-dynamic-code :global(textarea) {
+    position: absolute !important;
+    color: transparent !important;
+    background: transparent !important;
+    border: solid 1px transparent !important;
+    caret-color: white !important;
+    resize: none !important;
+    outline: none !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  api-dynamic-code :global(.code) {
+    padding-left: calc(-2rem - var(--ec-codePadInl)) !important;
+  }
+
+  api-dynamic-code :global(code) {
+    padding: 0 !important;
+    line-height: 1.5 !important;
+  }
+
+  api-dynamic-code :global(textarea),
+  api-dynamic-code :global(pre) {
+    margin: 0 !important;
+    padding: 1rem !important;
+    font-size: var(--sl-text-sm) !important;
+    line-height: 1.5 !important;
+    font-family: var(--ec-codeFontFml) !important;
+  }
+</style>
+
 <script>
   class ApiDynamicCode extends HTMLElement {
     static observedAttributes = ["disabled"];
@@ -191,41 +227,5 @@ const { disabled, language, name } = Astro.props;
 
   customElements.define("api-dynamic-code", ApiDynamicCode);
 </script>
-
-<style>
-  api-dynamic-code {
-    display: block;
-  }
-
-  api-dynamic-code :global(textarea) {
-    position: absolute !important;
-    color: transparent !important;
-    background: transparent !important;
-    border: solid 1px transparent !important;
-    caret-color: white !important;
-    resize: none !important;
-    outline: none !important;
-    height: 100% !important;
-    width: 100% !important;
-  }
-
-  api-dynamic-code :global(.code) {
-    padding-left: calc(-2rem - var(--ec-codePadInl)) !important;
-  }
-
-  api-dynamic-code :global(code) {
-    padding: 0 !important;
-    line-height: 1.5 !important;
-  }
-
-  api-dynamic-code :global(textarea),
-  api-dynamic-code :global(pre) {
-    margin: 0 !important;
-    padding: 1rem !important;
-    font-size: var(--sl-text-sm) !important;
-    line-height: 1.5 !important;
-    font-family: var(--ec-codeFontFml) !important;
-  }
-</style>
 
 <script src="./prism.js"></script>

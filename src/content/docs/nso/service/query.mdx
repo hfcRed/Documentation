@@ -4,7 +4,8 @@ sidebar:
   order: 1
 method: POST
 ---
-import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester } from "../../../../components/API/components.js"
+import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required } from "../../../../components/API/components.js"
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Path method="POST">
 /\{service\}/query
@@ -22,23 +23,31 @@ Please read the section [handling 502 responses](#handling-502-responses) for mo
 Refrain from repeating the request with the same data. If you can not solve the issue, please contact me on Discord.
 :::
 
-## Authorization 🔒
+## Authorization
 
 <AuthorizationHandler>
-  <Input required authType="http" authName="session_token" valueName="HTTP Bearer" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" valueExample="sdfzuasdfhahbsdf" inputType="password" inputPlaceholder="sessiontoken"/>
+  <Input required authType="http" authName="session_token" valueName="HTTP Bearer" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" valueExample="" inputType="password" inputName="authorization" inputPlaceholder="sessiontoken"/>
 </AuthorizationHandler>
 
 ## Request
 
 #### Parameters
 
+<Input required valueName="Service" valueType="string" valueDescription="Name of the service you want to query" valueExample="splatnet3" inputType="text" inputName="parameter" inputPlaceholder="splatnet3"/>
+
 #### Headers
 
-#### Body ❗
+<Input required valueName="X-Agent" valueType="string" valueDescription="Name of your application or contact information" valueExample="docs/1.0.0" inputType="text" inputName="header" inputPlaceholder="docs/1.0.0"/>
+
+<Input valueName="X-Language" valueType="string" valueDescription="Language for the query results (unused)" valueExample="en-US" inputType="text" inputName="header" inputPlaceholder="en-US"/>
+
+#### Body <Required></Required>
 
 Requires an array of simple and/or complex queries that you want to perform on the given service
 
-<DynamicCode language="json" id="request-body">
+<Tabs>
+  <TabItem label="Example">
+    <DynamicCode language="json" name="body">
       ```
       {
         "simpleQueries": [
@@ -49,11 +58,21 @@ Requires an array of simple and/or complex queries that you want to perform on t
         ]
       }
       ```
-</DynamicCode>
+    </DynamicCode>
+  </TabItem>
+  <TabItem label="Schema">
+    <Tree>
+      - Object
+        - simpleQueries (type: [string]) (description: String array of simple queries you want to perform on the given service) (required)
+        - detailedQueries (type: [Object]) (description: Object array of complex queries you want to perform on the given service) (required)
+    </Tree>
+  </TabItem>
+</Tabs>
 
-
-<ApiTester url="/service/query" />
+<ApiTester />
 
 ## Response
 
-### Handling 502 responses
+## Handling 502 responses
+
+## Rate Limiting

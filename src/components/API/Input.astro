@@ -1,13 +1,15 @@
 ---
 const {
-  inputType,
-  valueName,
-  valueType,
-  inputExample,
-  defaultValue,
-  valueDescription,
   required,
   disabled,
+  authType,
+  authName,
+  valueName,
+  valueType,
+  valueDescription,
+  valueExample,
+  inputType,
+  inputPlaceholder,
 } = Astro.props;
 ---
 
@@ -18,10 +20,12 @@ const {
     {required && <span class="badge badge-required">required</span>}
   </div>
   <input
-    type={inputType}
     spellcheck="false"
-    placeholder={inputExample}
-    data-default-value={defaultValue}
+    type={inputType}
+    placeholder={inputPlaceholder}
+    value-example={valueExample}
+    auth-type={authType}
+    auth-name={authName}
     {disabled}
   />
   <p class="description">{valueDescription}</p>

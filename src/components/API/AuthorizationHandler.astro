@@ -1,0 +1,40 @@
+---
+
+---
+
+<api-authorization-handler class="not-content">
+  <slot />
+</api-authorization-handler>
+
+<style>
+  api-authorization-handler {
+    display: block;
+  }
+</style>
+
+<script>
+  class AuthorizationHandler extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      const inputs: NodeListOf<HTMLInputElement> =
+        this.querySelectorAll("api-input input");
+
+      for (const input of inputs) {
+        const name = input.getAttribute("auth-name") || "";
+
+        sessionStorage.getItem(name)
+          ? (input.value = sessionStorage.getItem(name) || "")
+          : null;
+
+        input.oninput = () => {
+          sessionStorage.setItem(name, input.value);
+        };
+      }
+    }
+  }
+
+  customElements.define("api-authorization-handler", AuthorizationHandler);
+</script>

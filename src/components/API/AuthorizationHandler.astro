@@ -25,12 +25,12 @@
       for (const input of inputs) {
         const name = input.getAttribute("auth-name") || "";
 
-        sessionStorage.getItem(name)
-          ? (input.value = sessionStorage.getItem(name) || "")
+        localStorage.getItem(name)
+          ? (input.value = localStorage.getItem(name) || "")
           : null;
 
         input.oninput = () => {
-          sessionStorage.setItem(name, input.value);
+          localStorage.setItem(name, input.value);
         };
       }
     }

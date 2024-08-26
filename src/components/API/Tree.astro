@@ -101,6 +101,10 @@ function buildTree(html: string): string {
     padding: 0.1rem 0.5rem;
     cursor: pointer;
     transition: color 0.1s;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 
   api-tree :global(summary:hover) {

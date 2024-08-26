@@ -9,6 +9,7 @@ const {
   valueDescription,
   valueExample,
   inputType,
+  inputName,
   inputPlaceholder,
 } = Astro.props;
 ---
@@ -21,11 +22,14 @@ const {
   </div>
   <input
     spellcheck="false"
-    type={inputType}
+    autocomplete="off"
+    autocapitalize="off"
     placeholder={inputPlaceholder}
-    value-example={valueExample}
     auth-type={authType}
     auth-name={authName}
+    value-example={valueExample}
+    type={inputType}
+    name={inputName}
     {disabled}
   />
   <p class="description">{valueDescription}</p>

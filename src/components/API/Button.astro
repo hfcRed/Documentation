@@ -1,11 +1,12 @@
 ---
 import Spinner from "./Spinner.astro";
 
-const { variant, loading, disabled } = Astro.props;
+const { variant, loading, fullWidth, disabled } = Astro.props;
 ---
 
 <api-button
   loading={loading ? "true" : "false"}
+  full-width={fullWidth ? "true" : "false"}
   variant={variant ? variant : "filled"}
   class="not-content"
   {disabled}
@@ -19,13 +20,19 @@ const { variant, loading, disabled } = Astro.props;
 <style>
   api-button {
     display: inline-block;
+    min-width: fit-content;
+  }
+
+  [full-width="true"] {
+    width: 100%;
   }
 
   button {
     vertical-align: middle;
     font-size: var(--sl-text-sm);
     border-radius: 0.25rem;
-    padding: 0.5rem 3rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
     cursor: pointer;
     outline-offset: 1px;
     line-height: 1;

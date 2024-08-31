@@ -3,10 +3,12 @@ import "./prism.css";
 const { disabled, language, name } = Astro.props;
 ---
 
-<api-dynamic-code class="not-content" {disabled}>
+<api-dynamic-code name={name} class="not-content" {disabled}>
   <slot />
-  <textarea spellcheck="false" name={name} hidden {disabled}></textarea>
-  <pre aria-hidden="true" hidden><code class={`language-${language}`} /></pre>
+  <pre
+    hidden><code class={`language-${language}`} />
+    <textarea spellcheck="false" hidden {disabled} />
+  </pre>
 </api-dynamic-code>
 
 <style>
@@ -18,30 +20,34 @@ const { disabled, language, name } = Astro.props;
     position: absolute !important;
     color: transparent !important;
     background: transparent !important;
-    border: solid 1px transparent !important;
+    border: none !important;
     caret-color: white !important;
     resize: none !important;
     outline: none !important;
-    height: 100% !important;
+    padding: 0 !important;
+    height: calc(100% - 2rem) !important;
     width: 100% !important;
+    text-wrap: nowrap !important;
+    scrollbar-width: none !important;
+    top: 1rem !important;
+    left: 1rem !important;
   }
 
   api-dynamic-code :global(.code) {
     padding-left: calc(-2rem - var(--ec-codePadInl)) !important;
   }
 
-  api-dynamic-code :global(code) {
-    padding: 0 !important;
-    line-height: 1.5 !important;
+  api-dynamic-code :global(pre) {
+    position: relative !important;
+    padding: 1rem !important;
   }
 
   api-dynamic-code :global(textarea),
-  api-dynamic-code :global(pre) {
-    margin: 0 !important;
-    padding: 1rem !important;
+  api-dynamic-code :global(code) {
+    font-family: var(--ec-codeFontFml) !important;
     font-size: var(--sl-text-sm) !important;
     line-height: 1.5 !important;
-    font-family: var(--ec-codeFontFml) !important;
+    padding: 0 !important;
   }
 </style>
 
@@ -86,11 +92,17 @@ const { disabled, language, name } = Astro.props;
       frame.querySelector("pre")?.remove();
 
       this.textArea = this.querySelector("textarea") as HTMLTextAreaElement;
+      this.textArea.removeAttribute("hidden");
+      this.textArea.setAttribute("value-default", fullCode.trim());
       this.textArea.value = fullCode.trim();
-      frame.appendChild(this.textArea);
 
       const pre = this.querySelector("pre") as HTMLPreElement;
+      pre.removeAttribute("hidden");
       frame.appendChild(pre);
+
+      pre.addEventListener("scroll", () => {
+        this.matchTextareaWidth();
+      });
 
       this.code = pre.querySelector("code") as HTMLElement;
       this.code.innerHTML = fullCode.trim();
@@ -98,7 +110,10 @@ const { disabled, language, name } = Astro.props;
       this.textArea.oninput = () => {
         const text = this.textArea.value || "";
         this.renderText(text);
+        this.matchTextareaWidth();
       };
+
+      this.matchTextareaWidth();
 
       this.textArea.onkeydown = (event: KeyboardEvent) => {
         switch (event.key) {
@@ -148,14 +163,18 @@ const { disabled, language, name } = Astro.props;
       };
     }
 
+    matchTextareaWidth() {
+      const code = this.querySelector("code") as HTMLElement;
+
+      this.textArea.style.setProperty(
+        "width",
+        `${code.clientWidth}px`,
+        "important"
+      );
+    }
+
     renderText(text: string) {
-      if (!text) {
-        this.textArea.value = "{\n  \n}";
-        this.code.innerHTML = "{\n  \n}";
-        this.textArea.selectionStart = 4;
-        this.textArea.selectionEnd = 4;
-        return;
-      }
+      if (!text) text = this.textArea.getAttribute("value-default");
 
       this.code.innerHTML = text;
       this.textArea.value = text;

@@ -5,11 +5,10 @@ sidebar:
 method: POST
 ---
 import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required } from "../../../../components/API/components.js"
+import { Routes } from "../../../../components/API/routes.js"
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-<Path method="POST">
-/\{service\}/query
-</Path>
+<Path method="POST" path="/{service}/query" base={Routes.nso} />
 
 Query data from any of the available microservices. Currently available services are:
 
@@ -26,20 +25,20 @@ Refrain from repeating the request with the same data. If you can not solve the 
 ## Authorization
 
 <AuthorizationHandler>
-  <Input required authType="http" authName="session_token" valueName="HTTP Bearer" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" valueExample="" inputType="password" inputName="authorization" inputPlaceholder="sessiontoken"/>
+  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" valueExample="" inputName="HTTP Bearer" inputType="password" inputPlaceholder="sessiontoken" requestType="authorization"/>
 </AuthorizationHandler>
 
 ## Request
 
 #### Parameters
 
-<Input required valueName="Service" valueType="string" valueDescription="Name of the service you want to query" valueExample="splatnet3" inputType="text" inputName="parameter" inputPlaceholder="splatnet3"/>
+<Input required valueType="string" valueDescription="Name of the service you want to query" valueExample="splatnet3" inputName="Service" inputType="text" inputPlaceholder="splatnet3" requestType="parameter"/>
 
 #### Headers
 
-<Input required valueName="X-Agent" valueType="string" valueDescription="Name of your application or contact information" valueExample="docs/1.0.0" inputType="text" inputName="header" inputPlaceholder="docs/1.0.0"/>
+<Input required valueType="string" valueDescription="Name of your application or contact information" valueExample="docs/1.0.0" inputName="X-Agent" inputType="text" inputPlaceholder="docs/1.0.0" requestType="header"/>
 
-<Input valueName="X-Language" valueType="string" valueDescription="Language for the query results (unused)" valueExample="en-US" inputType="text" inputName="header" inputPlaceholder="en-US"/>
+<Input valueType="string" valueDescription="Language for the query results (unused)" valueExample="en-US" inputName="X-Language" inputType="text" inputPlaceholder="en-US" requestType="header"/>
 
 #### Body <Required></Required>
 
@@ -59,6 +58,7 @@ Requires an array of simple and/or complex queries that you want to perform on t
       }
       ```
     </DynamicCode>
+    Minimum request time: 0 seconds
   </TabItem>
   <TabItem label="Schema">
     <Tree>
@@ -69,7 +69,18 @@ Requires an array of simple and/or complex queries that you want to perform on t
   </TabItem>
 </Tabs>
 
-<ApiTester />
+<ApiTester>
+  <Fragment slot="response">
+    ```
+    null
+    ```
+  </Fragment>
+  <Fragment slot="request">
+    ```
+    null
+    ```
+  </Fragment>
+</ApiTester>
 
 ## Response
 

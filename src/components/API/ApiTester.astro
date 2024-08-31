@@ -1,116 +1,221 @@
 ---
-const { url } = Astro.props;
+import { Button, DynamicCode } from "./components.js";
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 ---
 
-<div class="request-url" style="display: none;">{url}</div>
-<sl-button
-  class="request-test"
-  size="small"
-  style="width: 15%"
-  variant="primary">Try</sl-button
->
-<sl-button class="request-clear" size="small" style="width: 15%"
-  >Clear</sl-button
->
-
-<sl-tab-group class="request-tabs" style="display: none;">
-  <sl-tab slot="nav" panel="response">Response</sl-tab>
-  <sl-tab slot="nav" panel="request">Request</sl-tab>
-
-  <sl-tab-panel name="response">
-    <pre class="request-request request-code language-json"></pre>
-  </sl-tab-panel>
-  <sl-tab-panel name="request">
-    <pre class="request-response request-code language-javascript"></pre>
-  </sl-tab-panel>
-</sl-tab-group>
-
-<script is:inline>
-  const baseUrl = "https://nso.hfcred.workers.dev";
-  window.addEventListener("load", () => {
-    const inputs = document.querySelectorAll("sl-input");
-    const badge = document.querySelector(".api-route > span");
-    const url = baseUrl + document.querySelector(".request-url").innerText;
-    const bodyText = document.querySelector(".request-body");
-
-    const testButton = document.querySelector(".request-test");
-    const clearButton = document.querySelector(".request-clear");
-    const tabs = document.querySelector(".request-tabs");
-    const responseBlock = document.querySelector(".request-response");
-    const requestBlock = document.querySelector(".request-request");
-
-    testButton.onclick = async () => {
-      if (testButton.hasAttribute("loading")) return;
-      testButton.toggleAttribute("loading");
-
-      const method = badge.innerText;
-      const body = bodyText?.value;
-
-      let requestUrl = "";
-      let headers = {};
-
-      for (const input of inputs) {
-        const id = input.id;
-        const value = input.value;
-
-        if (id.includes("parameter")) {
-          const key = id.split("_")[1];
-          requestUrl = url.replace(key, value);
-        }
-
-        if (id.includes("header")) {
-          const key = id.split("_")[1];
-          headers[key] = value;
-        }
-      }
-
-      const response = await fetch(requestUrl, {
-        method,
-        headers,
-        body: body ? JSON.stringify(JSON.parse(body)) : undefined,
-      });
-
-      headers.Authorization
-        ? (headers.Authorization =
-            headers.Authorization === "" ? "" : "Bearer ••••••••••")
-        : null;
-
-      const requestString = `fetch("${requestUrl}", ${JSON.stringify(JSON.parse(`{"method": "${method}", "headers": ${JSON.stringify(headers, null, 4)}, "body": ${body ? JSON.stringify(JSON.parse(body), null, 4) : "{}"}}`), null, 2)});`;
-
-      responseBlock.innerHTML = requestString;
-      Prism.highlightElement(responseBlock);
-
-      requestBlock.innerHTML = JSON.stringify(await response.json(), null, 2);
-      Prism.highlightElement(requestBlock);
-
-      testButton.toggleAttribute("loading");
-      tabs.style.display = "block";
-    };
-
-    clearButton.onclick = () => {
-      for (const input of inputs) {
-        input.value = "";
-      }
-
-      bodyText
-        ? (bodyText.value = bodyText.getAttribute("data-default"))
-        : null;
-      bodyText?.dispatchEvent(new Event("input"));
-      tabs.style.display = "none";
-    };
-  });
-</script>
+<api-tester class="not-content">
+  <div class="controls">
+    <Button id="submit" disabled variant="filled">Test</Button>
+    <Button id="example" variant="outline">Fill Example</Button>
+    <Button id="reset" variant="outline">Reset</Button>
+  </div>
+  <div class="results" hidden>
+    <Tabs>
+      <TabItem label="Response">
+        <DynamicCode disabled language="javascript" name="response">
+          <slot name="response" />
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Request">
+        <DynamicCode disabled language="javascript" name="request">
+          <slot name="request" />
+        </DynamicCode>
+      </TabItem>
+    </Tabs>
+  </div>
+</api-tester>
 
 <style>
-  .request-code {
-    margin: 0 !important;
-    padding: 1rem !important;
-    font-size: 0.875rem !important;
-    line-height: 1.5 !important;
-    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
-    width: 100% !important;
-    background-color: var(--sl-color-gray-6) !important;
+  api-tester {
+    display: block;
+    margin-top: 2rem !important;
+  }
+
+  p {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+
+    @media (min-width: 500px) {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .results {
+    margin-top: 1rem;
   }
 </style>
 
-<script src="./prism.js"></script>
+<script>
+  class ApiTester extends HTMLElement {
+    inputs: NodeListOf<HTMLInputElement> | null = null;
+    body: HTMLTextAreaElement | null = null;
+    submit: HTMLButtonElement | null = null;
+    example: HTMLButtonElement | null = null;
+    reset: HTMLButtonElement | null = null;
+
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.inputs = document.querySelectorAll("api-input input");
+      this.body = document.querySelector("api-dynamic-code[name=body]");
+      this.submit = document.querySelector("#submit");
+      this.example = document.querySelector("#example");
+      this.reset = document.querySelector("#reset");
+
+      for (const input of this.inputs) {
+        input.addEventListener("input", () => {
+          this.updateSubmitButton();
+        });
+      }
+
+      this.submit?.addEventListener("click", () => {
+        this.makeRequest();
+      });
+
+      this.reset?.addEventListener("click", () => {
+        for (const input of this.inputs || []) {
+          if (input.getAttribute("request-type") === "authorization") continue;
+          input.value = "";
+        }
+
+        this.body
+          ? // @ts-ignore
+            this.body.renderText("")
+          : null;
+
+        this.updateSubmitButton();
+      });
+
+      this.example?.addEventListener("click", () => {
+        for (const input of this.inputs || []) {
+          if (input.getAttribute("request-type") === "authorization") continue;
+          input.value = input.getAttribute("value-example") || "";
+        }
+
+        this.updateSubmitButton();
+      });
+    }
+
+    updateSubmitButton() {
+      const enableButton = Array.from(this.inputs || []).every(
+        (input) => input.value || input.getAttribute("required") == "false"
+      );
+
+      enableButton
+        ? this.submit?.removeAttribute("disabled")
+        : this.submit?.setAttribute("disabled", "");
+    }
+
+    async makeRequest() {
+      this.toggleControls();
+
+      const path = this.getFullPath();
+      const method = document.querySelector("api-path")?.getAttribute("method");
+      const headers = this.getAllHeader();
+      const body = this.body?.querySelector("textarea")?.value || "";
+
+      const request = {
+        method: method || "GET",
+        headers: {
+          ...Object.fromEntries(headers.map((header) => header.split(": "))),
+        },
+        body: body || null,
+      };
+
+      const responseCode = document.querySelector(
+        "api-dynamic-code[name=response]"
+      );
+      const requestCode = document.querySelector(
+        "api-dynamic-code[name=request]"
+      );
+
+      try {
+        const response = await fetch(path, request);
+        const data = await response.json();
+        // @ts-ignore
+        responseCode.renderText(JSON.stringify(data, null, 2));
+      } catch (error) {
+        // @ts-ignore
+        responseCode.renderText(error);
+      }
+
+      try {
+        request.body = JSON.parse(request.body || "{}");
+        // @ts-ignore
+        requestCode.renderText(
+          `await fetch("${path}", ${JSON.stringify(request, null, 2)});`
+        );
+      } catch (error) {
+        // @ts-ignore
+        requestCode.renderText(error);
+      }
+
+      this.querySelector(".results")?.removeAttribute("hidden");
+
+      this.toggleControls();
+    }
+
+    toggleControls() {
+      const isLoading = this.submit?.getAttribute("loading") || "false";
+
+      if (isLoading === "true") {
+        this.submit?.setAttribute("loading", "false");
+        this.submit?.removeAttribute("disabled");
+        this.example?.removeAttribute("disabled");
+        this.reset?.removeAttribute("disabled");
+      } else {
+        this.submit?.setAttribute("loading", "true");
+        this.submit?.setAttribute("disabled", "");
+        this.example?.setAttribute("disabled", "");
+        this.reset?.setAttribute("disabled", "");
+      }
+    }
+
+    getFullPath() {
+      const path =
+        document.querySelector("api-path")?.getAttribute("path") || "";
+      const basePath =
+        document.querySelector("api-path")?.getAttribute("base-path") || "";
+
+      const parameters = Array.from(this.inputs || []).filter(
+        (input) => input.getAttribute("request-type") === "parameter"
+      );
+
+      const filteredPath = parameters.map((parameter) =>
+        path
+          .toLowerCase()
+          .replace(parameter.name.toLowerCase(), parameter.value)
+      );
+
+      return `${basePath}${filteredPath}`;
+    }
+
+    getAllHeader() {
+      let headers: string[] = [];
+
+      Array.from(this.inputs || [])
+        .filter((input) => input.getAttribute("request-type") === "header")
+        .map((input) => headers.push(`${input.name}: ${input.value}`));
+
+      Array.from(this.inputs || [])
+        .filter(
+          (input) =>
+            input.getAttribute("request-type") === "authorization" &&
+            input.getAttribute("auth-type") === "http"
+        )
+        .map((input) => headers.push(`Authorization: Bearer ${input.value}`));
+
+      return headers;
+    }
+  }
+
+  customElements.define("api-tester", ApiTester);
+</script>

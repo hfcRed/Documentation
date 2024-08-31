@@ -4,7 +4,7 @@ sidebar:
   order: 1
 method: POST
 ---
-import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required } from "../../../../components/API/components.js"
+import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required, TimeEstimation } from "../../../../components/API/components.js"
 import { Routes } from "../../../../components/API/routes.js"
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
@@ -58,7 +58,7 @@ Requires an array of simple and/or complex queries that you want to perform on t
       }
       ```
     </DynamicCode>
-    Minimum request time: 0 seconds
+    <TimeEstimation/>
   </TabItem>
   <TabItem label="Schema">
     <Tree>

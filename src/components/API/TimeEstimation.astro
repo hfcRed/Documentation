@@ -1,0 +1,63 @@
+---
+
+---
+
+<api-time-estimation class="not-content">
+  <p>Minimum request time: <span>0</span> seconds</p>
+</api-time-estimation>
+
+<style>
+  api-time-estimation {
+    display: block;
+    margin-top: 0.5rem !important;
+  }
+
+  p {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+
+  span {
+    font-weight: bold;
+  }
+</style>
+
+<script>
+  class ApiTimeEstimation extends HTMLElement {
+    body: HTMLTextAreaElement | null = null;
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.body = document.querySelector(
+        "api-dynamic-code[name=body] textarea"
+      );
+
+      this.body?.addEventListener("input", () => {
+        this.updateTime();
+      });
+
+      this.updateTime();
+    }
+
+    updateTime() {
+      let json = {};
+      try {
+        json = JSON.parse(this.body?.value || "{}");
+      } catch (error) {
+        this.querySelector("span")!.textContent = "0";
+        return;
+      }
+
+      const time =
+        ((Object.values(json)[0] as any[]).length +
+          (Object.values(json)[1] as any[]).length) *
+        2;
+
+      this.querySelector("span")!.textContent = time.toString();
+    }
+  }
+
+  customElements.define("api-time-estimation", ApiTimeEstimation);
+</script>

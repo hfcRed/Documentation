@@ -25,7 +25,8 @@ Refrain from repeating the request with the same data. If you can not solve the 
 ## Authorization
 
 <AuthorizationHandler>
-  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" valueExample="" inputName="HTTP Bearer" inputType="password" inputPlaceholder="sessiontoken" requestType="authorization"/>
+  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" valueExample="" inputName="Session Token" inputType="password" inputPlaceholder="sessiontoken" requestType="authorization"/>
+  <Input required authType="http" authName="api_key" valueType="string" valueDescription="" valueExample="" inputName="API Key" inputType="password" inputPlaceholder="api key" requestType="authorization"/>
 </AuthorizationHandler>
 
 ## Request

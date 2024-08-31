@@ -213,8 +213,16 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
             input.getAttribute("request-type") === "authorization" &&
             input.getAttribute("auth-type") === "http"
         )
-        .map((input) => headers.push(`Authorization: Bearer ${input.value}`));
+        .map((input, index) => {
+          headers.map((header, index) =>
+            header.includes("Authorization")
+              ? (headers[index] = `${headers[index]}, ${input.value}`)
+              : null
+          );
+          if (index === 0) headers.push(`Authorization: Bearer ${input.value}`);
+        });
 
+      console.log(headers);
       return headers;
     }
   }

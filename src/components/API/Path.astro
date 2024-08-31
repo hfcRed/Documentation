@@ -1,10 +1,11 @@
 ---
-const { method } = Astro.props;
+const { method, path, base } = Astro.props;
+const cleanPath = path.replace("{", "").replace("}", "");
 ---
 
-<api-path method={method} class="not-content">
+<api-path method={method} path={cleanPath} base-path={base} class="not-content">
   <p class="badge">{method}</p>
-  <slot />
+  <p>{path}</p>
 </api-path>
 
 <style>

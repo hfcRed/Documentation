@@ -4,19 +4,19 @@ const {
   disabled,
   authType,
   authName,
-  valueName,
   valueType,
   valueDescription,
   valueExample,
-  inputType,
   inputName,
+  inputType,
   inputPlaceholder,
+  requestType,
 } = Astro.props;
 ---
 
 <api-input class="not-content" {disabled}>
   <div class="title">
-    {valueName}
+    {inputName}
     <span class="badge badge-type">{valueType}</span>
     {required && <span class="badge badge-required">required</span>}
   </div>
@@ -24,12 +24,14 @@ const {
     spellcheck="false"
     autocomplete="off"
     autocapitalize="off"
-    placeholder={inputPlaceholder}
+    required={required ? "true" : "false"}
     auth-type={authType}
     auth-name={authName}
     value-example={valueExample}
-    type={inputType}
     name={inputName}
+    type={inputType}
+    placeholder={inputPlaceholder}
+    request-type={requestType}
     {disabled}
   />
   <p class="description">{valueDescription}</p>

@@ -161,6 +161,28 @@ Requires an array of simple and/or complex queries that you want to perform on t
       </TabItem>
     </Tabs>
   </TabItem>
+  <TabItem label="409">
+    Conflict
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="409" disabled>
+          ```
+          {
+            "error": true,
+            "message": "Another process is already running"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
   <TabItem label="429">
     Too Many Requests
     <Tabs syncKey="example">

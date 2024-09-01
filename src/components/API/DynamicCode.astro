@@ -7,7 +7,7 @@ const { disabled, language, name } = Astro.props;
   <slot />
   <pre
     hidden><code class={`language-${language}`} />
-    <textarea spellcheck="false" hidden {disabled} />
+    <textarea spellcheck="false" name={name} hidden {disabled} />
   </pre>
 </api-dynamic-code>
 

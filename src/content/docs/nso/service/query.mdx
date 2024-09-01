@@ -10,22 +10,20 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Path method="POST" path="/{service}/query" base={Routes.nso} />
 
-Query data from any of the available microservices. Currently available services are:
+Query data from any of the available NSO microservices. Currently available services are:
 
 * Coral
 * Splatnet 3
 
 :::danger
-502 response codes should be treated with respect! It means something went wrong while trying to authenticate with Nintendo.
+502 response codes should be treated with respect! It means something went wrong while trying to authenticate with Nintendo.  
 Please read the section [handling 502 responses](#handling-502-responses) for more information.
-
-Refrain from repeating the request with the same data. If you can not solve the issue, please contact me on Discord.
 :::
 
 ## Authorization
 
 <AuthorizationHandler>
-  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the sessiontoken generate from the generate token endpoint" valueExample="" inputName="Session Token" inputType="password" inputPlaceholder="sessiontoken" requestType="authorization"/>
+  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the session token generate from the generate token endpoint" valueExample="" inputName="Session Token" inputType="password" inputPlaceholder="session token" requestType="authorization"/>
   <Input required authType="http" authName="api_key" valueType="string" valueDescription="" valueExample="" inputName="API Key" inputType="password" inputPlaceholder="api key" requestType="authorization"/>
 </AuthorizationHandler>
 
@@ -65,7 +63,7 @@ Requires an array of simple and/or complex queries that you want to perform on t
     <Tree>
       - Object
         - simpleQueries (type: [string]) (description: String array of simple queries you want to perform on the given service) (required)
-        - detailedQueries (type: [Object]) (description: Object array of complex queries you want to perform on the given service) (required)
+        - detailedQueries (type: [object]) (description: Object array of complex queries you want to perform on the given service) (required)
     </Tree>
   </TabItem>
 </Tabs>
@@ -85,6 +83,237 @@ Requires an array of simple and/or complex queries that you want to perform on t
 
 ## Response
 
+<Tabs>
+  <TabItem label="200">
+    Success
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="body" disabled>
+          ```
+          {
+            "error": false,
+            "data": [
+              {
+                "error": false,
+                "data": {}
+              },
+              {
+                "error": true,
+                "message": "Failed to fetch query"
+              }
+            ]
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - [object]
+              - error (type: boolean)
+              - data (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="400">
+    Bad Request
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="body" disabled>
+          ```
+          {
+            "error": true,
+            "message": "Invalid service"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="401">
+    Unauthorized
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="body" disabled>
+          ```
+          {
+            "error": true,
+            "message": "No authorization provided"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="429">
+    Too Many Requests
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="body" disabled>
+          ```
+          {
+            "error": true,
+            "message": "Rate limit exceeded"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="500">
+    Internal Server Error
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="body" disabled>
+          ```
+          {
+            "error": true,
+            "message": "Failed to generate tokens"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="502">
+    Bad Gateway
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="body" disabled>
+          ```
+          {
+            "error": true,
+            "message": {
+              "step": "0/7 (getting user access token)",
+              "nintendoResponse": {
+                "error_description": "The provided grant is invalid",
+                "error": "invalid_grant"
+              }
+            }
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - object
+              - step (type: string)
+              - object
+                - error_description (type: string)
+                - error (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>
+
 ## Handling 502 responses
 
+When something goes wrong while trying to authenticate with Nintendo, you will receive a 502 response code, alongside a JSON object with information about where the process failed.
+It is crucial to understand how to handle these responses correctly.
+
+:::caution
+Refrain from repeating the request with the same data until the issue is resolved!
+:::
+
+### Understanding the steps
+
+The JSON object you receive will contain a ``step`` field inside of the ``message`` object, which will tell you more about where and why the process failed.
+
+Some steps will contain a ``status`` field inside the ``nintendoResponse`` object, which will give you more information about the error.
+
+* **0/7 (getting user access token)**
+
+  This is the most common step you will encounter. It means that the session token you provided is invalid or expired. You should generate a new session token and try again.
+
+* **1/7 (getting user info)**
+
+  This step should never fail unless something went wrong on Nintendos side. If it does, report it to me immediately.
+
+* **2/7 (getting first fToken)**
+
+  This step can sometimes fail if the ftoken endpoint is unavailable. This is a server-side issue and should be reported to me.
+
+* **3/7 (getting web service access token)**
+
+  * Nintendo response status ``9407``
+
+    The account associated with the session token is not linked to a Nintendo console. This is a client-side issue and should be reported to the user.
+
+  * Nintendo response status ``9427`` and ``9403``
+
+    The NSO app has received an update and the version number used by the API is outdated. This is a server-side issue and should be reported to me.
+
+* **4/7 (getting second fToken)**
+
+  Same as step two.
+
+* **5/7 (getting gToken)**
+
+  * Nintendo response status ``9450``
+
+    The account associated with the session token does not have a valid NSO membership. This is a client-side issue and should be reported to the user.
+
+* **6/7 (getting service parameters)**
+
+  The account associated with the session token does not own or has not used the service you are trying to query. This is a client-side issue and should be reported to the user.
+
+* **7/7 (storing parameters)**
+
+  Uncommon step to fail. It means something went wrong while trying to store the service parameters in the database. This is a server-side issue and should be reported to me.
+
+  You can find out more about what, how and why the services parameters are stored on the [Parameter Storage](/nso/storage/) page.
+
 ## Rate Limiting
+
+This endpoint enforces very strict rate limiting. This is done to prevent excessive loads on the Nintendo servers and to prevent abuse of the API.
+
+The rate limits are set up in a way that less requests are made to the Nintendo servers than when using the NSO app itself.
+
+* **Base limit**
+
+  2 request every 10 seconds per session token
+
+* **Process limit**
+
+  1 running process per session token
+
+  You can not send a new request until the previous one has finished.
+
+* **Speed limit**
+
+  2 seconds between every query in a request
+
+  When passing multiple queries in a single request, the server will wait for 2 seconds between every query.

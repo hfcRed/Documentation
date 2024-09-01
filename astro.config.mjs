@@ -40,6 +40,7 @@ export default defineConfig({
 					label: 'NSO',
 					items: [
 						'nso/overview',
+						'nso/storage',
 						{
 							label: 'Authorization',
 							items: [

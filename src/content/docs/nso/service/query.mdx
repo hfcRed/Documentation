@@ -10,7 +10,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Path method="POST" path="/{service}/query" base={Routes.nso} />
 
-Query data from any of the available NSO microservices. Currently available services are:
+Query data from any of the available Nintendo Switch Online microservices. Currently available services are:
 
 * Coral
 * Splatnet 3
@@ -326,16 +326,35 @@ The rate limits are set up in a way that less requests are made to the Nintendo 
 
 * **Base limit**
 
-  2 request every 10 seconds per session token
+  2 request every 10 seconds per session token.
 
 * **Process limit**
 
-  1 running process per session token
+  1 running process per session token.
 
   You can not send a new request until the previous one has finished.
 
 * **Speed limit**
 
-  2 seconds between every query in a request
+  2 seconds between every query in a request.
 
   When passing multiple queries in a single request, the server will wait for 2 seconds between every query.
+
+* **Size limit**
+
+  50 queries per request.
+
+Despite these limits, you should still do your best to minimize the amount of requests you make to the API. Our goal is not to step on anyones toes, but to provide a service that is both useful to users and respectful to Nintendo.
+
+:::note
+It is recommended to split a query up into multiple requests if the single request would take longer than 15 seconds to complete.
+
+Once a query is started, it can not be aborted, locking the session token for the duration of the query.
+:::
+
+## Aditional Notes
+
+* Responses are sanitized from any links pointing at resources such as images or videos. Nintendo is not a CDN and should not be used as one.  
+  If you require these resources, you can fetch them from [Leannys GitHub repository](https://github.com/Leanny/splat3) instead.
+
+* Service parameters need to be re-regenerated every 2 hours. This will add a small delay of around 5-8 seconds. If a query is taking longer than usual, this might be the reason why.

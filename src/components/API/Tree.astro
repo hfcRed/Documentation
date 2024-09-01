@@ -64,6 +64,11 @@ function buildTree(html: string): string {
       for (let i = 0; i < count; i++) {
         const last = childElements.pop() || [];
 
+        if (childElements.length === 0) {
+          childElements.push(last);
+          continue;
+        }
+
         childElements[index - 1].push(
           `<li><details class="directory" open><summary>${directories[index - 1]}</summary><ul>${last.join("")}</ul></details></li>`
         );

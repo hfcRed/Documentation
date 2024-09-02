@@ -2,7 +2,6 @@
 title: Query service
 sidebar:
   order: 1
-method: POST
 ---
 import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required, TimeEstimation } from "../../../../components/API/components.js"
 import { Routes } from "../../../../components/API/routes.js"
@@ -23,7 +22,7 @@ Please read the section [handling 502 responses](#handling-502-responses) for mo
 ## Authorization
 
 <AuthorizationHandler>
-  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the session token generate from the generate token endpoint" valueExample="" inputName="Session Token" inputType="password" inputPlaceholder="session token" requestType="authorization"/>
+  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the session token generated from the generate token endpoint" valueExample="" inputName="Session Token" inputType="password" inputPlaceholder="session token" requestType="authorization"/>
   <Input required authType="http" authName="api_key" valueType="string" valueDescription="" valueExample="" inputName="API Key" inputType="password" inputPlaceholder="api key" requestType="authorization"/>
 </AuthorizationHandler>
 

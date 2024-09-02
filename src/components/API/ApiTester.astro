@@ -104,6 +104,10 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 
         this.updateSubmitButton();
       });
+
+      requestAnimationFrame(() => {
+        this.updateSubmitButton();
+      });
     }
 
     updateSubmitButton() {
@@ -150,7 +154,6 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
       }
 
       try {
-        request.body = JSON.parse(request.body || "{}");
         // @ts-ignore
         requestCode.renderText(
           `await fetch("${path}", ${JSON.stringify(request, null, 2)});`
@@ -191,11 +194,14 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
         (input) => input.getAttribute("request-type") === "parameter"
       );
 
-      const filteredPath = parameters.map((parameter) =>
-        path
-          .toLowerCase()
-          .replace(parameter.name.toLowerCase(), parameter.value)
-      );
+      const filteredPath =
+        parameters.length > 0
+          ? parameters.map((parameter) =>
+              path
+                .toLowerCase()
+                .replace(parameter.name.toLowerCase(), parameter.value)
+            )
+          : path;
 
       return `${basePath}${filteredPath}`;
     }

@@ -38,7 +38,9 @@
         this.updateTime();
       });
 
-      this.updateTime();
+      requestAnimationFrame(() => {
+        this.updateTime();
+      });
     }
 
     updateTime() {

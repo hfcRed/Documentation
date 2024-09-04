@@ -12,6 +12,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
   <div class="results" hidden>
     <Tabs>
       <TabItem label="Response">
+        <p>Status: <span class="status">200</span></p>
         <DynamicCode disabled language="javascript" name="response">
           <slot name="response" />
         </DynamicCode>
@@ -31,11 +32,6 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
     margin-top: 2rem !important;
   }
 
-  p {
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-3);
-  }
-
   .controls {
     display: grid;
     grid-template-columns: 1fr;
@@ -49,6 +45,10 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
   .results {
     margin-top: 1rem;
   }
+
+  p {
+    margin-bottom: 1rem;
+  }
 </style>
 
 <script>
@@ -58,6 +58,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
     submit: HTMLButtonElement | null = null;
     example: HTMLButtonElement | null = null;
     reset: HTMLButtonElement | null = null;
+    status: HTMLSpanElement | null = null;
 
     constructor() {
       super();
@@ -69,6 +70,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
       this.submit = document.querySelector("#submit");
       this.example = document.querySelector("#example");
       this.reset = document.querySelector("#reset");
+      this.status = this.querySelector(".status");
 
       for (const input of this.inputs) {
         input.addEventListener("input", () => {
@@ -148,9 +150,11 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
         const data = await response.json();
         // @ts-ignore
         responseCode.renderText(JSON.stringify(data, null, 2));
+        if (this.status) this.status.textContent = response.status.toString();
       } catch (error) {
         // @ts-ignore
         responseCode.renderText(error);
+        if (this.status) this.status.textContent = "500";
       }
 
       try {

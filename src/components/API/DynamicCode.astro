@@ -49,6 +49,10 @@ const { disabled, language, name } = Astro.props;
     line-height: 1.5 !important;
     padding: 0 !important;
   }
+
+  api-dynamic-code :global(textarea[disabled]) {
+    pointer-events: none !important;
+  }
 </style>
 
 <script>

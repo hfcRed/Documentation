@@ -1,6 +1,193 @@
 ---
 title: Generate token
-sidebar:
-  order: 2
-method: POST
 ---
+import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required } from "../../../../components/API/components.js"
+import { Routes } from "../../../../components/API/routes.js"
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Path method="POST" path="/authorization/sessiontoken" base={Routes.nso} />
+
+Generate a session token for the account associated with the login link obtained through the authorization link
+
+:::caution
+502 response codes should be treated with caution! It means something went wrong while trying to authenticate with Nintendo.  
+Please read the section [handling 502 responses](#handling-502-responses) for more information.
+:::
+
+## Authorization
+
+<AuthorizationHandler>
+  <Input required authType="http" authName="api_key" valueType="string" valueDescription="" valueExample="" inputName="API Key" inputType="password" inputPlaceholder="api key" requestType="authorization"/>
+</AuthorizationHandler>
+
+## Request
+
+#### Body <Required/>
+
+Requires the login link obtained through the ``/authorization/link`` endpoint and the verifier associated with the login link
+
+<Tabs>
+  <TabItem label="Example">
+    <DynamicCode language="json" name="body">
+      ```
+      {
+        "loginLink": "",
+        "verifier": ""
+      }
+      ```
+    </DynamicCode>
+  </TabItem>
+  <TabItem label="Schema">
+    <Tree>
+      - Object
+        - loginLink (type: string) (description: Login link obtained from the authorization link) (required)
+        - verifier (type: string) (description: Verifier associated with the login link) (required)
+    </Tree>
+  </TabItem>
+</Tabs>
+
+<ApiTester>
+  <Fragment slot="response">
+    ```
+    null
+    ```
+  </Fragment>
+  <Fragment slot="request">
+    ```
+    null
+    ```
+  </Fragment>
+</ApiTester>
+
+## Response
+
+<Tabs>
+  <TabItem label="200">
+    Success
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="200" disabled>
+          ```
+          {
+            "error": false,
+            "data": {
+              "sessionToken": "eyJhbGciOiJIUzI1NiJ9..."
+            }
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - object
+              - sessionToken (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="400">
+    Bad Request
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="400" disabled>
+          ```
+          {
+            "error": true,
+            "message": "Missing required body field"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="401">
+    Unauthorized
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="401" disabled>
+          ```
+          {
+            "error": true,
+            "message": "No authorization provided"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="502">
+    Bad Gateway
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="502" disabled>
+          ```
+          {
+            "error": true,
+            "message": {
+              "nintendoResponse": {
+                "error_description": "The provided session_token_code is expired",
+                "error": "invalid_request"
+              }
+            }
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - object
+              - object
+                - error_description (type: string)
+                - error (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>
+
+## Handling 502 Responses
+
+When something goes wrong while trying to authenticate with Nintendo, you will receive a 502 response code, alongside a JSON object with information about where the process failed.
+It is important to understand how to handle these responses correctly.
+
+:::caution
+Refrain from repeating the request with the same data until the issue is resolved!
+:::
+
+The JSON object you receive will contain a ``nintendoResponse`` field inside of the ``message`` object, which will tell you why the process failed.
+
+* **The provided session_token_code is expired**
+
+  The login link has expired. You will have to generate a new login link and verifier to generate a new session token.
+
+* **The provided session_token_code is invalid**
+
+  The session token code inside the login link has been modified or the verifier does not belong to the login link. Make sure you are using the correct verifier and associated login link.
+
+* **The request does not satisfy the schema**
+
+  The verifier has been modified. Make sure you are using the original verifier.
+
+## Aditional Notes
+
+* Session tokens are valid for an entire year. After that, you will have to generate a new session token.
+
+* Session tokens can be revoked from the [login history](https://accounts.nintendo.com/login_history) on the Nintendo Account website.

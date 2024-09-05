@@ -1,7 +1,5 @@
 ---
 title: Query service
-sidebar:
-  order: 1
 ---
 import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required, TimeEstimation } from "../../../../components/API/components.js"
 import { Routes } from "../../../../components/API/routes.js"
@@ -14,8 +12,8 @@ Query data from any of the available Nintendo Switch Online microservices. Curre
 * Coral
 * Splatnet 3
 
-:::danger
-502 response codes should be treated with respect! It means something went wrong while trying to authenticate with Nintendo.  
+:::caution
+502 response codes should be treated with caution! It means something went wrong while trying to authenticate with Nintendo.  
 Please read the section [handling 502 responses](#handling-502-responses) for more information.
 :::
 
@@ -38,7 +36,7 @@ Please read the section [handling 502 responses](#handling-502-responses) for mo
 
 <Input valueType="string" valueDescription="Language for the query results (unused)" valueExample="en-US" inputName="X-Language" inputType="text" inputPlaceholder="en-US" requestType="header"/>
 
-#### Body <Required></Required>
+#### Body <Required/>
 
 Requires an array of simple and/or complex queries that you want to perform on the given service
 
@@ -260,16 +258,16 @@ Requires an array of simple and/or complex queries that you want to perform on t
   </TabItem>
 </Tabs>
 
-## Handling 502 responses
+## Handling 502 Responses
 
 When something goes wrong while trying to authenticate with Nintendo, you will receive a 502 response code, alongside a JSON object with information about where the process failed.
-It is crucial to understand how to handle these responses correctly.
+It is important to understand how to handle these responses correctly.
 
 :::caution
 Refrain from repeating the request with the same data until the issue is resolved!
 :::
 
-### Understanding the steps
+### Understanding The Steps
 
 The JSON object you receive will contain a ``step`` field inside of the ``message`` object, which will tell you more about where and why the process failed.
 
@@ -343,12 +341,12 @@ The rate limits are set up in a way that less requests are made to the Nintendo 
 
 * **Size limit**
 
-  50 queries per request.
+  25 queries per request.
 
 Despite these limits, you should still do your best to minimize the amount of requests you make to the API. Our goal is not to step on anyones toes, but to provide a service that is both useful to users and respectful to Nintendo.
 
 :::note
-It is recommended to split a query up into multiple requests if the single request would take longer than 15 seconds to complete.
+It is recommended to split a query up into multiple requests if the single request would take longer than 20 seconds to complete.
 
 Once a query is started, it can not be aborted, locking the session token for the duration of the query.
 :::

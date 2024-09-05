@@ -2,10 +2,86 @@
 title: Authorization link
 sidebar:
   order: 1
-head:
-  - tag: link
-    attrs: { rel: stylesheet, href: https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/dark.css, onload: document.documentElement.classList.add('sl-theme-dark'); }
-  - tag: script
-    attrs: { type: module, src: https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/shoelace.js }
-method: GET
 ---
+import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree } from "../../../../components/API/components.js"
+import { Routes } from "../../../../components/API/routes.js"
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Path method="GET" path="/authorization/link" base={Routes.nso} />
+
+Generate a Nintendo Switch Online authorization link to obtain the login link to generate a session token.
+
+## Authorization
+
+<AuthorizationHandler>
+  <Input required authType="http" authName="api_key" valueType="string" valueDescription="" valueExample="" inputName="API Key" inputType="password" inputPlaceholder="api key" requestType="authorization"/>
+</AuthorizationHandler>
+
+## Request
+
+<ApiTester>
+  <Fragment slot="response">
+    ```
+    null
+    ```
+  </Fragment>
+  <Fragment slot="request">
+    ```
+    null
+    ```
+  </Fragment>
+</ApiTester>
+
+## Response
+
+<Tabs>
+  <TabItem label="200">
+    Success
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="200" disabled>
+          ```
+          {
+            "error": false,
+            "data": {
+              "link": "https://accounts.nintendo.com/connect/1.0.0/authorize...",
+              "verifier": "fNz1Y_YK0igURr..."
+            }
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - object
+              - link (type: string)
+              - verifier (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="401">
+    Unauthorized
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="401" disabled>
+          ```
+          {
+            "error": true,
+            "message": "No authorization provided"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>

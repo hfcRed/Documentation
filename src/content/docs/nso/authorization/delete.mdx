@@ -1,6 +1,105 @@
 ---
 title: Delete token
-sidebar:
-  order: 3
-method: DELETE
 ---
+import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required } from "../../../../components/API/components.js"
+import { Routes } from "../../../../components/API/routes.js"
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Path method="DELETE" path="/authorization/delete" base={Routes.nso} />
+
+Delete the database entry for the given session token
+
+This does not invalidate the session token! You have to manually revoke it from the [login history](https://accounts.nintendo.com/login_history) on the Nintendo Account website.
+
+## Authorization
+
+<AuthorizationHandler>
+  <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the session token generated from the generate token endpoint" valueExample="" inputName="Session Token" inputType="password" inputPlaceholder="session token" requestType="authorization"/>
+  <Input required authType="http" authName="api_key" valueType="string" valueDescription="" valueExample="" inputName="API Key" inputType="password" inputPlaceholder="api key" requestType="authorization"/>
+</AuthorizationHandler>
+
+## Request
+
+<ApiTester>
+  <Fragment slot="response">
+    ```
+    null
+    ```
+  </Fragment>
+  <Fragment slot="request">
+    ```
+    null
+    ```
+  </Fragment>
+</ApiTester>
+
+## Response
+
+<Tabs>
+  <TabItem label="200">
+    Success
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="200" disabled>
+          ```
+          {
+            "error": false,
+            "data": "Entry deleted from database"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - data (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="401">
+    Unauthorized
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="401" disabled>
+          ```
+          {
+            "error": true,
+            "message": "No authorization provided"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+    <TabItem label="404">
+    Not Found
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="404" disabled>
+          ```
+          {
+            "error": true,
+            "message": "Entry not found in database"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>

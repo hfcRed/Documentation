@@ -1,0 +1,42 @@
+---
+title: Privacy and Safety
+---
+
+Before obtaining a users session token, you must inform them of the use of this API and present the following policy and disclaimer to them, either directly in text or via a link to this page.
+
+## Privacy Policy
+
+```
+This API does not store any private or identifying information.
+For more details on the information that is stored, visit https://docs.hfcred.dev/nso/storage
+
+This API will occasionally send a User ID to a third-party service as part of the authentication process.  
+More information about this service can be found https://github.com/imink-app/f-API
+
+Session tokens can be revoked at any time by visiting https://accounts.nintendo.com/login_history
+```
+
+## Safety Disclaimer
+
+```
+While Nintendo has never taken action against accounts for interfacing with their servers, there is no guarantee that this API is safe to use.
+
+By using this API, you acknowledge that you do so at your own risk and that the developers are not responsible for any actions that may be taken against your account.
+
+For more information about the safety of this API, visit https://docs.hfcred.dev/nso/safety#about-safety
+```
+
+## About Safety
+
+It is extremely unlikely that Nintendo will take action against any account for interfacing with their servers. Here are some points to consider:
+
+    * People have been interfacing with NSO servers without issues ever since it was released in 2017.
+    * No one has ever gotten their account or console banned or suspended for interfacing with NSO servers.
+    * Nintendo has only ever taken action against one application and its users in 2023 because it was putting heavy load on the NSO servers.
+        * The accounts got their access to Splatnet 3 temporarily revoked. The accounts were not banned or suspended. The users could still play Spatoon 3 online and did not lose access to any other NSO features or services.
+    * This API has very strict rate limits to make it impossible to generate more requests than you would when using the NSO app itself.
+        * The rate limits can be found on the [Query Service](https://docs.hfcred.dev/nso/service/query#rate-limiting) page.
+
+### Incidents
+
+ * **8th May 2023**

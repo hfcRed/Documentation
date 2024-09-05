@@ -40,13 +40,15 @@ export default defineConfig({
 					label: 'NSO',
 					items: [
 						'nso/overview',
+						'nso/safety',
 						'nso/storage',
+						'nso/authentication',
 						{
 							label: 'Authorization',
 							items: [
 								{ slug: 'nso/authorization/link', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
 								{ slug: 'nso/authorization/sessiontoken', badge: { text: 'P', variant: 'success', class: 'api-badge' }, attrs: { class: 'api-title' } },
-								{ slug: 'nso/authorization/delete', badge: { text: 'D', variant: 'danger', class: 'api-badge' }, attrs: { class: 'api-title' } }
+								{ slug: 'nso/authorization/delete', badge: { text: 'D', variant: 'danger', class: 'api-badge' }, attrs: { class: 'api-title' } },
 							]
 						},
 						{

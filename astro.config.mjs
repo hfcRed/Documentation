@@ -34,10 +34,12 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Animation Repathing',
+					collapsed: true,
 					autogenerate: { directory: 'animation-repathing' },
 				},
 				{
 					label: 'NSO',
+					collapsed: true,
 					items: [
 						'nso/overview',
 						'nso/safety',

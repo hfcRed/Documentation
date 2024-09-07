@@ -1,0 +1,41 @@
+---
+import { Button } from "./components.js";
+---
+
+<api-contact>
+  <p>Discord: hfcRed</p>
+  <Button id="reveal">Show Email</Button>
+</api-contact>
+
+<style>
+  api-contact {
+    display: block;
+  }
+</style>
+
+<script>
+  class Contact extends HTMLElement {
+    reveal: HTMLButtonElement | null = null;
+
+    constructor() {
+      super();
+
+      this.reveal = this.querySelector("#reveal");
+
+      if (this.reveal !== null)
+        this.reveal.onclick = () => {
+          this.createInformation();
+        };
+    }
+
+    createInformation() {
+      const email = document.createElement("p");
+      email.textContent = "Email: hfcred@gmx.net";
+      this.appendChild(email);
+
+      this.reveal?.remove();
+    }
+  }
+
+  customElements.define("api-contact", Contact);
+</script>

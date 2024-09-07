@@ -8,3 +8,4 @@ export { default as Spinner } from './Spinner.astro';
 export { default as Tree } from './Tree.astro';
 export { default as Required } from './Required.astro';
 export { default as TimeEstimation } from './TimeEstimation.astro';
+export { default as Contact } from './Contact.astro';

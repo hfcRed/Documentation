@@ -21,6 +21,10 @@ code,
   border-radius: 0.5rem !important;
 }
 
+figure:has(figcaption span) pre {
+  border-radius: 0 0 0.5rem 0.5rem !important;
+}
+
 a.button {
   background: var(--sl-color-text-accent) !important;
   color: var(--sl-color-black) !important;
@@ -46,10 +50,4 @@ a.button {
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
-}
-
-.api-title span:first-of-type {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }

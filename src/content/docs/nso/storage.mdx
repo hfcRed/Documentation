@@ -3,3 +3,93 @@ title: Parameter Storage
 sidebar:
   order: 2
 ---
+
+In order to query the NSO servers, the API first needs to generate a Gameweb Token (gToken) and service-specific parameters.  
+
+The gToken and parameters have unique lifetimes of usually around 2-3 hours, so the API stores them in a key-value pair in order to debounce them correctly.
+
+No personal or identifying information is ever stored.
+
+:::note
+Storage is handled very securely.  
+No data can be retrieved or read without the session token, which is only stored on the client side.
+:::
+
+## Storage Process
+
+### Storage Key
+
+The API will take the session token and hash it using SHA256 to create a unique key for the key-value pair.
+
+As an example, we will use this (invalid) session token:
+
+```json
+"eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjU4MDk1MTksInN0OnNjcCI6WzAsOCw5LDE3LDIzXSwiZXhwIjoxNzg4ODgxNTE5LCJhdWQiOiI3MWI5NjNjMWI3YjZkMTE5IiwidHlwIjoic2Vzc2lvbl90b2tlbiIsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMubmludGVuZG8uY29tIiwianRpIjoxNTgyNjcwMzYxMSwic3ViIjoiN2I2ZTIyZGFiNTdlMmFkYyJ9.mPjdCbOI9tXVsFAPTWbbLt35bBZWGeJCsz2bIyXwayM"
+```
+
+So the hashed key would be:
+
+```json
+"617f054187b8435b0f6937f15a6c904c6da1f7e6ddac75e6ffcb4bc274f6a7db"
+```
+
+Hashed values are not reversible. It is impossible to retrieve the original session token from the hashed key.
+
+### Storage Value
+
+Using the session token, the API generates the necessary gToken and parameters for the service you want to query.
+
+As an example, we will make a query to Splatnet 3. The resulting gToken and parameters are:
+
+```json
+{
+  "gToken": "eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLWxwMS56bmMuc3J2Lm5pbnRlbmRvLm5ldC92MS9XZWJTZXJ2aWNlL0NlcnRpZmljYXRlL0xpc3QiLCJraWQiOiJTSjlZWlVzaERCNnM2VGI3MnN0YXI4ZjNmU1kiLCJ0eXAiOiJKV1QifQ.eyJpc0NoaWxkUmVzdHJpY3RlZCI6ZmFsc2UsImF1ZCI6IjY2MzM2NzcyOTE1NTI3NjgiLCJleHAiOjE3MjU4MjI0MzIsImlhdCI6MTcyNTgxMTYzMiwiaXNzIjoiYXBpLWxwMS56bmMuc3J2Lm5pbnRlbmRvLm5ldCIsImp0aSI6Ijk1OTlmM2JiLTE0Y2EtNGMzZi1hNTFjLWQ4Y2I5Njk2ZTBlMCIsInN1YiI6NTUxNjIyNTYxNDYxMDQzMiwibGlua3MiOnsibmV0d29ya1NlcnZpY2VBY2NvdW50Ijp7ImlkIjoiOTc1MDAxZTMzM2ZhOGE2NCJ9fSwidHlwIjoiaWRfdG9rZW4iLCJtZW1iZXJzaGlwIjp7ImFjdGl2ZSI6dHJ1ZX19.HCjS70kcR11NsmLrX2bDZo76u-ZeMFtW3FY7NIyU3BwJugp5E-3_7RD7qoEJTPf5e54q7sfyTM7jTZYEonldtAbWsuFBJMiL7LDyTybyEOUopQLIEb3NyCvalUue27dKl-l-L2jGprEJoOUC8Ny09ixYGPIW3oHPLVw8gRZSUYuY7f5lBk1RptaE6h5nTFkpppUWj1cg13P_jMvST55cdpLofvI69p2Mte0xhTpgrSfEFMUpHc8iKlCRB9ujzMFh8Bs9Bsn1RXRwZWfe6k0Yo1IjVqZQfONPaNKVL4i44tKojJpp42kK9nECfLq9n1Na26IrUPZ8CYkEcdMd8oLALw",
+  "bulletToken": "U1VqMsgjsYRkxk2fZrjXqMaTGHeKhwwDN7xc7nHcMK-K9-7YrNwUI5xmIlwBeeH4CMFFi2-A8ISTbOownziZ-OzGrDXkqTaUfC72vzeavr0j7a4wWb7tyPs_0Dc=",
+  "lang": "en-US",
+  "is_noe_country": "true"
+}
+```
+
+The gToken and service parameters are now encoded into Uint8Arrays:
+
+```json
+{
+  "gToken": [ 101, 121, 74, 104,  98,  71,  99, 105,  79, 105,  74,  83, 85, 122, 73,  49,  78, 105,  73, 115,  73, 109, 112, 114, 100,  83, 73,  54,  73, 109, 104,  48, 100,  72,  66, 122, 79, 105, 56, 118,  89,  88,  66, 112,  76,  87, 120, 119, 77,  83, 53,  54,  98, 109,  77, 117,  99,  51,  74,  50, 76, 109, 53, 112,  98, 110,  82, 108,  98, 109,  82, 118, 76, 109, 53, 108, 100,  67,  57,  50,  77,  83,  57,  88, 90,  87, 74,  84,  90,  88,  74,  50,  97,  87,  78, 108, 76,  48, 78, 108, ... 826 more items ],
+  "serviceParams": [ 123,  34,  98, 117, 108, 108, 101, 116,  84, 111, 107, 101, 110,  34,  58,  34,  85,  49,  86, 113,  77, 115, 103, 106, 115,  89,  82, 107, 120, 107,  50, 102,  90, 114, 106,  88, 113,  77,  97,  84,  71,  72, 101,  75, 104, 119, 119,  68, 78,  55, 120,  99,  55, 110,  72,  99,  77,  75,  45,  75, 57,  45,  55,  89, 114,  78, 119,  85,  73,  53, 120, 109, 73, 108, 119,  66, 101, 101,  72,  52,  67,  77,  70,  70, 105,  50,  45,  65,  56,  73,  83,  84,  98,  79, 111, 119, 110, 122, 105,  90, ... 81 more items ]
+}
+
+```
+
+Now the session token is also encoded and the first 32 values are extracted from the resulting Uint8Array:
+
+```json
+[ 101, 121,  74, 104,  98,  71,  99, 105,  79, 105,  74,  73, 85, 122,  73,  49,  78, 105,  74,  57,  46, 101, 121,  74, 112,  89,  88,  81, 105,  79, 106,  69 ]
+```
+
+Finally, we will use those 32 values to create a CryptoKey to encrypt the Uint8Arrays of the gToken and parameters. The resulting ArrayBuffers are then encoded into strings:
+
+```json
+{
+  "gToken": "NsrFrgag2rc+xfhnWQgYM/6imaplC4e2SfgKm5TeB+7VV+Kqk2+msYB8+cVKFHe9wTqSdYR1R3BkpdUwVMltAslCgInWSlFrQETPRH2lwoHZmPUBhhZeB25A8sydNoCpgkR+C6WvDt7uarWzh1JgeTZXF30js2K2qt0xKS5joFNYw9HvqDs37Q6KzvNAN8IwkiuyxaY+079Fw93/Rqk7TEVfD/P1LRgyvLSa7M0hbbePaleDX+pAqrEgzCu3cpCrNrFgLlYow34aNXq9h0t0+Eh1xU29b5yMpa8g1HC/1On9oM9lQ7AQFfWGGuk+JgqmgZ6RC4iCsv9nA0HaXCdgHUKYcJvQ46wdfT7wJTtZ5stvBvH7CtOTtUcFsfNEt6b2FonpQuq7muhFsNCBv4PidfLlbF7vT/wlFz7kSlcplMgj4A70+KJ0k07V0Hgn83uFrsk77M+MfzsFQTDq/aYEW87B2NUpDEXtJJ2Onkm/eZ60lOFGp40kQVbHts6BoGGhsUnTTWMRfqV0WNDSLmwOydyD+sf7pGryIZRvoxuhCHPP3GflbwQp9FdRADG/Px4c0T6VHOabxJPb1QpSFph5Xn++p2dIEuXRJl0dcebTMNaPTXbIa01s2vsG4RedCW5Q5c4WBdT+eocdGlwJIGD2ZQcQpd14QExvGQLaxnpIb/DpPkmDddLr1pXCa9kdZE/brw95SgfWvpSxFwZkM09sCx8uqNiSBi55vwd7ahrvVS+p3IJCZjjQYG12x9D/+sKiFW8BDvGZdIw1yt/+1lKCRTzOr8XXs/1lqZEMw4bCjrJnrrThpmGBcyZKVY0otOKR5kcvBgR8Lct9nZzCaL3LEYlPp7fKzEFXmJ4KVUnvi3Snu97Ye2n980qI+FJG24z/A9igOgvVeI826emWjqM1wvZvIBYQrXaq1Jc8qk8SSxhbXfVMU8moJxNFyUJ8mY7w0qBZu4iJ3AAZQQP/lxolEosE4a5Zxp9iBNKeKfCEI3v0UEmeHAbsr6BA9BHjZl6w6isQxzL36JahRfVXzlNMKBofyixSCIB0Pqvik3K6zb54ZbjpslOQp9ZFui31zfBh17lJltAB+ksqj7Ta05rJblyZwK+o+KmNaK2lZ8VsOFTrE4QW/lmEMzhu0pfMkMA1FuOim/QQM2Ck/fWMzoJS+AjhyWC21s7TZZpIg3PHr9MsrukIY3vZ170iQ1KgURLR2Ejwy5ZIGvv5O077+lp8geKO7zodzx4EYrGfmiuR",
+  "serviceParams": "KJHtswiL3Kolw9lRYlBrIOX6hqhhFZCuXvIRxqXYXbjrbcqIrUv/k55s3v5uNHiOwl7fINF2QmZK3bJJIYlvK9lipbD9EntwRUWNanyDs4fXhooftXM5EgxR66qeLqGyoA5ZPeuOJunGQ4Gyr15TQBwkWD82+la+kOxLMXhVxU1AyKzPggEo6Gmi+7QDXrIfvSuY1cpb/ukl6dbtM9MbC0BbLvv/fxwunoOipYpDDqqydnjqdHs2ODiJvxtTevr5mVcmQJo="
+}
+```
+
+When a request is made to the API, the session token is used to decrypt the value and retrieve the gToken and parameters so it can perform the queries.
+
+Since the value was encrypted using the session token, it is impossible to read the value without it.
+
+## Service Parameter List
+
+Every service has unique parameters that are generated and stored:
+
+* **Splatnet 3**
+
+  ``gToken``  
+  ``bulletToken``  
+  ``lang``  
+  ``is_noe_country``
+
+* **Coral**
+
+  ``accessToken``

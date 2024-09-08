@@ -1,7 +1,16 @@
 ---
 title: Overview
 ---
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import { Contact } from "../../../components/API/components.js"
+
+NSO API is a free and easy to use API that allows you to query servers of Nintendo Switch Online microservices.
+
+<LinkCard title="Authentication Flow" description="Get started by learning how to obtain your session token" href="/nso/authentication"/>
+<CardGrid>
+    <LinkCard title="Query Service" description="Use your session token to perform queries" href="/nso/service/query" />
+    <LinkCard title="Privacy and Safety" description="Learn about the safety of this API" href="/nso/safety" />
+</CardGrid>
 
 ## API Keys
 
@@ -17,7 +26,9 @@ When building applications that create session tokens and perform queries on the
 
     * The application must be free to use. Accepting donations is allowed.
 
+:::caution
 Failing to follow these guidelines may result in your API key being revoked. Exceptions can be made on a case-by-case basis.
+:::
 
 ## Open Source And Public Access
 

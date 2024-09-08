@@ -38,7 +38,7 @@ export default defineConfig({
 					autogenerate: { directory: 'animation-repathing' },
 				},
 				{
-					label: 'NSO',
+					label: 'NSO API',
 					collapsed: true,
 					items: [
 						'nso/overview',

@@ -4,7 +4,7 @@ sidebar:
   order: 2
 ---
 
-In order to query the NSO servers, the API first needs to generate a Gameweb Token (gToken) and service-specific parameters.  
+Before making a query to the NSO servers, the API first needs to generate a Gameweb Token (gToken) and service-specific parameters.  
 
 The gToken and parameters have unique lifetimes of usually around 2-3 hours, so the API stores them in a key-value pair in order to debounce them correctly.
 
@@ -37,7 +37,7 @@ Hashed values are not reversible. It is impossible to retrieve the original sess
 
 ### Storage Value
 
-Using the session token, the API generates the necessary gToken and parameters for the service you want to query.
+Using the session token, the API generates the necessary gToken and parameters for the service you want to query and encrypts them before storing them in the key-value pair.
 
 As an example, we will make a query to Splatnet 3. The resulting gToken and parameters are:
 
@@ -60,7 +60,7 @@ The gToken and service parameters are now encoded into Uint8Arrays:
 
 ```
 
-Now the session token is also encoded and the first 32 values are extracted from the resulting Uint8Array:
+Now the session token is also encoded, and the first 32 values are extracted from the resulting Uint8Array:
 
 ```json
 [ 101, 121,  74, 104,  98,  71,  99, 105,  79, 105,  74,  73, 85, 122,  73,  49,  78, 105,  74,  57,  46, 101, 121,  74, 112,  89,  88,  81, 105,  79, 106,  69 ]

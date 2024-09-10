@@ -1,3 +1,88 @@
 ---
 title: List Queries
 ---
+import { Path, AuthorizationHandler, Input, DynamicCode, ApiTester, Tree, Required } from "../../../../components/API/components.js"
+import { Routes } from "../../../../components/API/routes.js"
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Path method="GET" path="/{service}/querylist" base={Routes.nso} />
+
+Get a list of all possible queries for any of the available microservices. Currently available services are:
+
+* Coral
+* Splatnet 3
+
+## Request
+
+#### Parameters
+
+<Input required valueType="string" valueDescription="Name of the service you want to query" valueExample="splatnet3" inputName="Service" inputType="text" inputPlaceholder="splatnet3" requestType="parameter"/>
+
+<ApiTester>
+  <Fragment slot="response">
+    ```
+    null
+    ```
+  </Fragment>
+  <Fragment slot="request">
+    ```
+    null
+    ```
+  </Fragment>
+</ApiTester>
+
+## Response
+
+<Tabs>
+  <TabItem label="200">
+    Success
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="200" disabled>
+          ```
+          {
+            "error": false,
+            "data": {
+                "simpleQueries": [
+                ""
+                ],
+                "detailedQueries": {}
+            }
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - object
+              - simpleQueries (type: array)
+              - detailedQueries (type: object)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem label="400">
+    Bad Request
+    <Tabs syncKey="example">
+      <TabItem label="Example">
+        <DynamicCode language="json" name="400" disabled>
+          ```
+          {
+            "error": true,
+            "message": "Invalid service"
+          }
+          ```
+        </DynamicCode>
+      </TabItem>
+      <TabItem label="Schema">
+        <Tree>
+          - Object
+            - error (type: boolean)
+            - message (type: string)
+        </Tree>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>

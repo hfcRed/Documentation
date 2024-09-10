@@ -15,7 +15,6 @@ This does not invalidate the session token! You have to manually revoke it from 
 
 <AuthorizationHandler>
   <Input required authType="http" authName="session_token" valueType="string" valueDescription="Uses the session token generated from the generate token endpoint" valueExample="" inputName="Session Token" inputType="password" inputPlaceholder="session token" requestType="authorization"/>
-  <Input required authType="http" authName="api_key" valueType="string" valueDescription="" valueExample="" inputName="API Key" inputType="password" inputPlaceholder="api key" requestType="authorization"/>
 </AuthorizationHandler>
 
 ## Request
@@ -80,7 +79,7 @@ This does not invalidate the session token! You have to manually revoke it from 
       </TabItem>
     </Tabs>
   </TabItem>
-    <TabItem label="404">
+  <TabItem label="404">
     Not Found
     <Tabs syncKey="example">
       <TabItem label="Example">

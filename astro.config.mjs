@@ -42,22 +42,22 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						'nso/overview',
-						'nso/safety',
-						'nso/storage',
-						'nso/authentication',
+						'nso/privacy-and-safety',
+						'nso/parameter-storage',
+						'nso/authentication-flow',
 						{
 							label: 'Authorization',
 							items: [
-								{ slug: 'nso/authorization/link', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
-								{ slug: 'nso/authorization/sessiontoken', badge: { text: 'P', variant: 'success', class: 'api-badge' }, attrs: { class: 'api-title' } },
-								{ slug: 'nso/authorization/delete', badge: { text: 'D', variant: 'danger', class: 'api-badge' }, attrs: { class: 'api-title' } },
+								{ slug: 'nso/authorization/login-link', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
+								{ slug: 'nso/authorization/session-token', badge: { text: 'P', variant: 'success', class: 'api-badge' }, attrs: { class: 'api-title' } },
+								{ slug: 'nso/authorization/delete-token', badge: { text: 'D', variant: 'danger', class: 'api-badge' }, attrs: { class: 'api-title' } },
 							]
 						},
 						{
 							label: 'Service',
 							items: [
 								{ slug: 'nso/service/query', badge: { text: 'P', variant: 'success', class: 'api-badge' }, attrs: { class: 'api-title' } },
-								{ slug: 'nso/service/querylist', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
+								{ slug: 'nso/service/query-list', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
 							]
 						}
 					]

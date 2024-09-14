@@ -1,3 +1,3 @@
 export const Routes = {
-    nso: "https://nso.hfcred.workers.dev",
+    nso: "https://nso-connect.dev",
 }

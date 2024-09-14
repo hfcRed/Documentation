@@ -37,6 +37,8 @@ a.button {
   text-decoration: none;
   display: inline-flex;
   margin-top: 1rem;
+  display: flex;
+  width: fit-content;
 }
 
 .api-badge {

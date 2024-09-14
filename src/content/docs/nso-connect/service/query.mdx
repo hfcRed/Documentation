@@ -32,7 +32,7 @@ Please read the section [handling 502 responses](#handling-502-responses) for mo
 
 #### Headers
 
-<Input required valueType="string" valueDescription="Name of your application or contact information" valueExample="docs/1.0.0" inputName="X-Agent" inputType="text" inputPlaceholder="docs/1.0.0" requestType="header"/>
+<Input required valueType="string" valueDescription="Name of your application or contact information. Should either be in the format {appName}/{version} or provide contact information." valueExample="docs/1.0.0" inputName="X-Agent" inputType="text" inputPlaceholder="docs/1.0.0" requestType="header"/>
 
 <Input valueType="string" valueDescription="Language for the query results (unused)" valueExample="en-US" inputName="X-Language" inputType="text" inputPlaceholder="en-US" requestType="header"/>
 
@@ -315,13 +315,13 @@ Some steps will contain a ``status`` field inside the ``nintendoResponse`` objec
 
   Uncommon step to fail. It means something went wrong while trying to store the service parameters in the database. This is a server-side issue and should be reported to me.
 
-  You can find out more about what, how and why the services parameters are stored on the [Parameter Storage](/nso/storage/) page.
+  You can find out more about what, how and why the services parameters are stored on the [Parameter Storage](/nso-connect/parameter-storage) page.
 
 ## Rate Limiting
 
-This endpoint enforces very strict rate limiting. This is done to prevent excessive loads on the Nintendo servers and to prevent abuse of the API.
+This endpoint enforces very strict rate limiting to prevent excessive loads on Nintendos servers and to prevent abuse of the API.
 
-The rate limits are set up in a way that less requests are made to the Nintendo servers than when using the NSO app itself.
+The rate limits are set up in a way that less requests are made than when using the NSO app itself.
 
 * **Base limit**
 
@@ -343,7 +343,9 @@ The rate limits are set up in a way that less requests are made to the Nintendo 
 
   25 queries per request.
 
-Despite these limits, you should still do your best to minimize the amount of requests you make to the API. Our goal is not to step on anyones toes, but to provide a service that is both useful to users and respectful to Nintendo.
+Despite these limits, you should still do your best to minimize the amount of requests you make to the API. Our goal is to provide a service that is both useful to users and respectful to Nintendo.
+
+Session tokens get hashed before being used for rate limiting as to not temporarily store their raw value in the database.
 
 :::note
 It is recommended to split a query up into multiple requests if the single request would take longer than 20 seconds to complete.
@@ -356,4 +358,4 @@ Once a query is started, it can not be aborted, locking the session token for th
 * Responses are sanitized from any links pointing at resources such as images or videos. Nintendo is not a CDN and should not be used as one.  
   If you require these resources, you can fetch them from [Leannys GitHub repository](https://github.com/Leanny/splat3) instead.
 
-* Service parameters need to be re-regenerated every 2 hours. This will add a small delay of around 5-8 seconds. If a query is taking longer than usual, this might be the reason why.
+* Service parameters need to be regenerated every 2 hours. This will add a small delay of around 5-8 seconds. If a query is taking longer than usual, this might be the reason why.

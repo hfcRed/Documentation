@@ -4,12 +4,12 @@ title: Overview
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import { Contact } from "../../../components/API/components.js"
 
-NSO API is a free and easy to use API that allows you to query servers of Nintendo Switch Online microservices.
+NSO Connect is a free and easy to use API that allows you to query servers of Nintendo Switch Online microservices.
 
-<LinkCard title="Authentication Flow" description="Get started by learning how to obtain your session token" href="/nso/authentication"/>
+<LinkCard title="Authentication Flow" description="Get started by learning how to obtain your session token" href="/nso-connect/authentication-flow"/>
 <CardGrid>
-    <LinkCard title="Query Service" description="Use your session token to perform queries" href="/nso/service/query" />
-    <LinkCard title="Privacy and Safety" description="Learn about the safety of this API" href="/nso/safety" />
+    <LinkCard title="Query Service" description="Use your session token to perform queries" href="/nso-connect/service/query" />
+    <LinkCard title="Privacy and Safety" description="Learn about the safety of this API" href="/nso-connect/privacy-and-safety" />
 </CardGrid>
 
 ## API Keys
@@ -18,7 +18,7 @@ To use the API, you need an API key. You can aquire one by contacting me with a 
 
 When building applications that create session tokens and perform queries on the behalf of a user, you must follow the following guidelines:
 
-    * Users must be informed of the use of this API and presented with the [Privacy Policy and Safety Disclaimer](/nso/safety). 
+    * Users must be informed of the use of this API and presented with the [Privacy Policy and Safety Disclaimer](/nso-connect/safety). 
     
     * Session tokens and other sensitive information must always be stored on the client side.
 
@@ -36,7 +36,7 @@ Failing to follow these guidelines may result in your API key being revoked. Exc
 
 The API was built in Node with zero dependencies to make it very easy to use and roll your own version. However, at least for now, the API will remain closed source and only accessible through API keys.
 
-Nintendo has previously taken action against irresponsible developers who have put heavy loads on their servers. You can read about the incident on the [Privacy and Safety](/nso/safety#about-safety) page.  
+Nintendo has previously taken action against irresponsible developers who have put heavy loads on their servers. You can read about the incident on the [Privacy and Safety](/nso-connect/safety#about-safety) page.  
 Open source and public access could lead to abuse both intentionally and unintentionally, and we do not want to draw any unnecessary attention to the project.
 
 However, I am working on open sourcing everything except the few parts that actually communicate with the NSO servers. 

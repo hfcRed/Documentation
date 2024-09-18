@@ -32,7 +32,7 @@ Please read the section [handling 502 responses](#handling-502-responses) for mo
 
 #### Headers
 
-<Input required valueType="string" valueDescription="Name of your application or contact information. Should either be in the format {appName}/{version} or provide contact information." valueExample="docs/1.0.0" inputName="X-Agent" inputType="text" inputPlaceholder="docs/1.0.0" requestType="header"/>
+<Input required valueType="string" valueDescription="Name of your application. Should either be in the format {appName}/{version} or provide contact information" valueExample="docs/1.0.0" inputName="X-Agent" inputType="text" inputPlaceholder="docs/1.0.0" requestType="header"/>
 
 <Input valueType="string" valueDescription="Language for the query results (unused)" valueExample="en-US" inputName="X-Language" inputType="text" inputPlaceholder="en-US" requestType="header"/>
 
@@ -248,7 +248,7 @@ Requires an array of simple and/or complex queries that you want to perform on t
           - Object
             - error (type: boolean)
             - object
-              - step (type: string)
+              - step (type: string) (description: The authentication step which caused the error)
               - object
                 - error_description (type: string)
                 - error (type: string)

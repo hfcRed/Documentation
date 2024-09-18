@@ -7,7 +7,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Path method="POST" path="/authorization/sessiontoken" base={Routes.nso} />
 
-Generate a session token for the account associated with the login link obtained through the authorization link
+Generate a session token for the account associated with the login link obtained through the authorization link.
 
 :::caution
 502 response codes should be treated with caution! It means something went wrong while trying to authenticate with Nintendo.  
@@ -82,7 +82,7 @@ Requires the login link obtained through the ``/authorization/link`` endpoint an
           - Object
             - error (type: boolean)
             - object
-              - sessionToken (type: string)
+              - sessionToken (type: string) (description: Session token used to make queries)
         </Tree>
       </TabItem>
     </Tabs>

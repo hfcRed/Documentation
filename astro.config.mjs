@@ -59,7 +59,8 @@ export default defineConfig({
 								{ slug: 'nso-connect/service/query', badge: { text: 'P', variant: 'success', class: 'api-badge' }, attrs: { class: 'api-title' } },
 								{ slug: 'nso-connect/service/query-list', badge: { text: 'G', variant: 'note', class: 'api-badge' }, attrs: { class: 'api-title' } },
 							]
-						}
+						},
+						'nso-connect/openapi'
 					]
 				}
 			],

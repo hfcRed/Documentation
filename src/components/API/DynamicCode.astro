@@ -130,7 +130,7 @@ const { disabled, language, name } = Astro.props;
             this.preserveTab();
             break;
           case "Backspace":
-            this.deleteClosingBracket();
+            this.deleteClosingSymbol();
             break;
           case "{":
             event.preventDefault();
@@ -227,17 +227,25 @@ const { disabled, language, name } = Astro.props;
       const start = this.textArea.selectionStart;
       const end = this.textArea.selectionEnd;
 
+      if (this.textArea.value.substring(start - 1, start) == string[0]) {
+        this.textArea.value = `${this.textArea.value.substring(0, start)}${string[0]}${this.textArea.value.substring(end)}`;
+        this.textArea.selectionStart = this.textArea.selectionEnd = start + 1;
+        this.textArea.dispatchEvent(new Event("input"));
+        return;
+      }
+
       this.textArea.value = `${this.textArea.value.substring(0, start)}${string}${this.textArea.value.substring(end)}`;
       this.textArea.selectionStart = this.textArea.selectionEnd = start + 1;
       this.textArea.dispatchEvent(new Event("input"));
     }
 
-    deleteClosingBracket() {
+    deleteClosingSymbol() {
       const start = this.textArea.selectionStart;
       const end = this.textArea.selectionEnd;
 
       if (
-        this.textArea.value[start] === this.textArea.value[end] &&
+        this.textArea.value.substring(start - 1, start) ===
+          this.textArea.value.substring(end, end + 1) &&
         /[\])}>"'`]/.test(this.textArea.value[start])
       ) {
         this.textArea.value = `${this.textArea.value.substring(0, start)}${this.textArea.value.substring(end + 1)}`;

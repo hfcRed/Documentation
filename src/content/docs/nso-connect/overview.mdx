@@ -18,11 +18,11 @@ To use the API, you need an API key. You can aquire one by contacting me with a 
 
 When building applications that create session tokens and perform queries on the behalf of a user, you must follow the following guidelines:
 
-    * Users must be informed of the use of this API and presented with the [Privacy Policy and Safety Disclaimer](/nso-connect/safety). 
+    * Users must be informed of the use of this API and presented with the [Privacy Policy and Safety Disclaimer](/nso-connect/privacy-and-safety). 
     
     * Session tokens and other sensitive information must always be stored on the client side.
 
-    * The application must identify itself when performing queries by including a. ``X-Agent`` header in the request.
+    * The application must identify itself when performing queries by including an ``X-Agent`` header in the request.
 
     * The application must be free to use. Accepting donations is allowed.
 
@@ -36,7 +36,7 @@ Failing to follow these guidelines may result in your API key being revoked. Exc
 
 The API was built in Node with zero dependencies to make it very easy to use and roll your own version. However, at least for now, the API will remain closed source and only accessible through API keys.
 
-Nintendo has previously taken action against irresponsible developers who have put heavy loads on their servers. You can read about the incident on the [Privacy and Safety](/nso-connect/safety#about-safety) page.  
+Nintendo has previously taken action against irresponsible developers who have put heavy loads on their servers. You can read about the incident on the [Privacy and Safety](/nso-connect/privacy-and-safety#about-safety) page.  
 Open source and public access could lead to abuse both intentionally and unintentionally, and we do not want to draw any unnecessary attention to the project.
 
 However, I am working on open sourcing everything except the few parts that actually communicate with the NSO servers. 
